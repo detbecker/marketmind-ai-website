@@ -2,7 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Network, TrendingUp, Target, ArrowRight, Play } from 'lucide-react';
+import { Network, TrendingUp, Target, ArrowRight, Play, Mail } from 'lucide-react';
 import './Home.css';
 
 // Import images
@@ -40,9 +40,14 @@ export default function Home() {
         <div className="logo-container" onClick={() => navigate('/')}>
           <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" />
         </div>
-        <button className="btn btn-secondary btn-sm" onClick={() => navigate('/')}>
-          Back to Waitlist
-        </button>
+        <div className="flex gap-4">
+          <a href="mailto:inquiries@ssr-research.ai?subject=MarketMind%20AI%20Inquiry" className="btn btn-secondary btn-sm flex items-center gap-2">
+            <Mail size={14} /> Contact Us
+          </a>
+          <button className="btn btn-secondary btn-sm" onClick={() => navigate('/')}>
+            Back to Waitlist
+          </button>
+        </div>
       </nav>
 
       {/* 1. HERO SECTION */}

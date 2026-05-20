@@ -44,9 +44,14 @@ export default function ComingSoon() {
         <div className="logo-container">
           <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" />
         </div>
-        <button className="btn btn-secondary btn-sm" onClick={() => navigate('/details')}>
-          Concept Details <ArrowRight size={14} />
-        </button>
+        <div className="flex gap-4">
+          <a href="mailto:inquiries@ssr-research.ai?subject=MarketMind%20AI%20Inquiry" className="btn btn-secondary btn-sm flex items-center gap-2">
+            <Mail size={14} /> Contact Us
+          </a>
+          <button className="btn btn-secondary btn-sm" onClick={() => navigate('/details')}>
+            Concept Details <ArrowRight size={14} />
+          </button>
+        </div>
       </nav>
 
       {/* Main Content */}
@@ -128,16 +133,27 @@ export default function ComingSoon() {
               ) : (
                 <motion.div 
                   key="success"
-                  className="success-card glass-panel text-center"
+                  className="success-card glass-panel text-center p-8 rounded-2xl border border-gray-800"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: "spring", stiffness: 100 }}
                 >
                   <CheckCircle size={48} className="success-icon text-emerald-400 mx-auto" />
-                  <h3 className="h3 mt-4 text-white">You're on the list!</h3>
-                  <p className="body-text text-gray-400 mt-2">
-                    Thank you for joining. We have registered <strong>{email}</strong> for priority early access. We will keep you updated.
+                  <h3 className="h3 mt-4 text-white text-2xl font-bold">You're on the list!</h3>
+                  <p className="body-text text-gray-300 mt-3 max-w-md mx-auto leading-relaxed">
+                    Thank you for your interest in MarketMind AI. We have registered <strong>{email}</strong> for priority early access.
                   </p>
+                  <p className="body-text text-gray-400 mt-3 max-w-md mx-auto text-sm leading-relaxed">
+                    You will be contacted soon with more information by our team from <strong>inquiries@ssr-research.ai</strong>.
+                  </p>
+                  <div className="mt-6 flex justify-center gap-4">
+                    <a 
+                      href={`mailto:inquiries@ssr-research.ai?subject=MarketMind%20AI%20Waitlist%20Registration&body=Hello%20MarketMind%20AI%20Team%2C%0A%0AI%20just%20joined%20the%20waitlist%20using%20the%20address%20${encodeURIComponent(email)}.%20Please%20verify%20my%20submission.`}
+                      className="btn btn-primary btn-sm inline-flex items-center gap-2"
+                    >
+                      <Mail size={14} /> Verify Email & Contact Us
+                    </a>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
