@@ -10,7 +10,7 @@ All notable changes to the **MarketMind AI Website** project will be documented 
 - **Interactive Logo & Back Navigation**:
   - Configured logo containers in both `ComingSoon.jsx` and `Home.jsx` to be clickable, routing users back to the Coming Soon landing page (`/`).
   - Added a "Back to Waitlist" secondary button on the right side of the navigation header on the details page (`/details`).
-- **Internal Contact Page (/contact)**: Created a dedicated contact page displaying corporate details for SSR Research and Development, Inc. (phone, email, proposal guidance, tagline, and beta waitlist access), fully styled with matching dark-mode glassmorphic aesthetics. Header "Contact Us", "Request Demo", and "Book a Platform Tour" buttons now link directly to this page.
+- **Internal Contact Page (/contact)**: Created a dedicated contact page displaying corporate details for SSR Research and Development, Inc., with support inquiries routed to `inquiries@marketmind-ai.com`. Header "Contact Us", "Request Demo", and "Book a Platform Tour" buttons now link directly to this page.
 
 ### Changed
 - **Logo UI Refresh**:
