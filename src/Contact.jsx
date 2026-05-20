@@ -86,12 +86,12 @@ export default function Contact() {
                 </div>
                 <div className="flex items-center gap-3 text-gray-400">
                   <Mail size={16} className="text-purple-400" />
-                  <a href="mailto:inquiries@ssr-research.ai" className="hover:text-white transition-colors">inquiries@ssr-research.ai</a>
+                  <a href="mailto:inquiries@marketmind-ai.com" className="hover:text-white transition-colors">inquiries@marketmind-ai.com</a>
                 </div>
               </div>
             </div>
             
-            <a href="mailto:inquiries@ssr-research.ai?subject=MarketMind%20AI%20Inquiry" className="btn btn-primary btn-sm w-full text-center flex items-center justify-center gap-2">
+            <a href="mailto:inquiries@marketmind-ai.com?subject=MarketMind%20AI%20Inquiry" className="btn btn-primary btn-sm w-full text-center flex items-center justify-center gap-2">
               <Mail size={14} /> Email Us
             </a>
           </motion.div>
