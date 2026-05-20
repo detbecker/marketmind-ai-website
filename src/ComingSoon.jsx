@@ -141,19 +141,8 @@ export default function ComingSoon() {
                   <CheckCircle size={48} className="success-icon text-emerald-400 mx-auto" />
                   <h3 className="h3 mt-4 text-white text-2xl font-bold">You're on the list!</h3>
                   <p className="body-text text-gray-300 mt-3 max-w-md mx-auto leading-relaxed">
-                    Thank you for your interest in MarketMind AI. We have registered <strong>{email}</strong> for priority early access.
+                    Thank you for your interest in MarketMind AI. You will be contacted soon with more information.
                   </p>
-                  <p className="body-text text-gray-400 mt-3 max-w-md mx-auto text-sm leading-relaxed">
-                    You will be contacted soon with more information by our team from <strong>inquiries@ssr-research.ai</strong>.
-                  </p>
-                  <div className="mt-6 flex justify-center gap-4">
-                    <a 
-                      href={`mailto:inquiries@ssr-research.ai?subject=MarketMind%20AI%20Waitlist%20Registration&body=Hello%20MarketMind%20AI%20Team%2C%0A%0AI%20just%20joined%20the%20waitlist%20using%20the%20address%20${encodeURIComponent(email)}.%20Please%20verify%20my%20submission.`}
-                      className="btn btn-primary btn-sm inline-flex items-center gap-2"
-                    >
-                      <Mail size={14} /> Verify Email & Contact Us
-                    </a>
-                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
