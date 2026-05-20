@@ -273,6 +273,23 @@
   font-size: 0.875rem;
 }
 
+.footer-text {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.footer-text a {
+  color: var(--accent-purple);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer-text a:hover {
+  color: var(--accent-blue);
+  text-decoration: underline;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
   .split-layout {

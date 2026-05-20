@@ -198,6 +198,9 @@ export default function ComingSoon() {
           <div className="logo-container">
             <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img small" />
           </div>
+          <p className="footer-text">
+            MarketMind AI is a product of <a href="https://ssr-research.ai" target="_blank" rel="noopener noreferrer">SSR Research and Development, Inc.</a>
+          </p>
           <p className="copyright text-gray-500 text-sm">&copy; {new Date().getFullYear()} MarketMind AI. All rights reserved.</p>
         </div>
       </footer>
