@@ -10,6 +10,7 @@ All notable changes to the **MarketMind AI Website** project will be documented 
 - **Interactive Logo & Back Navigation**:
   - Configured logo containers in both `ComingSoon.jsx` and `Home.jsx` to be clickable, routing users back to the Coming Soon landing page (`/`).
   - Added a "Back to Waitlist" secondary button on the right side of the navigation header on the details page (`/details`).
+- **Security-First Contact Flow**: Added direct mailto links to `inquiries@ssr-research.ai` in both headers, avoiding backend form handling and eliminating SQL/Prompt injection vulnerabilities. Added a "Verify Email & Contact Us" verification button to the thank-you card.
 
 ### Changed
 - **Logo UI Refresh**:
@@ -18,6 +19,7 @@ All notable changes to the **MarketMind AI Website** project will be documented 
   - Increased the size of the navbar logo to `48px` (up from `36px`) and the footer logo to `32px` (up from `28px`) in `src/Home.css` for a more premium visual weight.
 - **Favicon Integration**: Updated `index.html` to reference the new PNG favicon (`/favicon.png`) instead of the default Vite SVG icon.
 - **Domain Mapping Transition**: Migrated project custom domain configuration in Firebase Hosting to the correct domain **`marketmind-ai.com`** (with hyphen) using GoDaddy nameservers (`ns43`/`ns44`).
+- **Waitlist Success Screen**: Upgraded the thank-you panel inside `ComingSoon.jsx` to display a custom security confirmation message instructing users they will be contacted by `inquiries@ssr-research.ai` shortly.
 
 ### Technical & Infrastructure
 - Cleaned up local styling overrides and compiled standard client bundles via Vite.
