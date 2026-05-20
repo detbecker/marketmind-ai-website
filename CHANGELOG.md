@@ -19,7 +19,7 @@ All notable changes to the **MarketMind AI Website** project will be documented 
   - Increased the size of the navbar logo to `48px` (up from `36px`) and the footer logo to `32px` (up from `28px`) in `src/Home.css` for a more premium visual weight.
 - **Favicon Integration**: Updated `index.html` to reference the new PNG favicon (`/favicon.png`) instead of the default Vite SVG icon.
 - **Domain Mapping Transition**: Migrated project custom domain configuration in Firebase Hosting to the correct domain **`marketmind-ai.com`** (with hyphen) using GoDaddy nameservers (`ns43`/`ns44`).
-- **Waitlist Success Screen**: Upgraded the thank-you panel inside `ComingSoon.jsx` to display a custom security confirmation message instructing users they will be contacted by `inquiries@ssr-research.ai` shortly.
+- **Waitlist Success Screen**: Upgraded the thank-you panel inside `ComingSoon.jsx` to display a clean, security-first confirmation message stating that the user will be contacted soon (omitting any direct email printing).
 
 ### Technical & Infrastructure
 - Cleaned up local styling overrides and compiled standard client bundles via Vite.
