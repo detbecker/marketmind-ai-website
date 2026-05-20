@@ -10,31 +10,7 @@ export default function ComingSoon() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState('');
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-  // Launch target: October 1, 2026
-  const targetDate = new Date('2026-10-01T00:00:00').getTime();
-
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const difference = targetDate - new Date().getTime();
-      let newTimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
-
-      if (difference > 0) {
-        newTimeLeft = {
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
-        };
-      }
-      setTimeLeft(newTimeLeft);
-    };
-
-    calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
-    return () => clearInterval(timer);
-  }, [targetDate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -106,30 +82,7 @@ export default function ComingSoon() {
             We're building the future of multi-agent AI data analysis, Markov chain path mapping, and marketing budget calibration. Join the waitlist to secure early access.
           </motion.p>
 
-          {/* Countdown Grid */}
-          <motion.div 
-            className="countdown-grid mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <div className="countdown-card glass-panel">
-              <span className="number">{timeLeft.days}</span>
-              <span className="label">Days</span>
-            </div>
-            <div className="countdown-card glass-panel">
-              <span className="number">{String(timeLeft.hours).padStart(2, '0')}</span>
-              <span className="label">Hours</span>
-            </div>
-            <div className="countdown-card glass-panel">
-              <span className="number">{String(timeLeft.minutes).padStart(2, '0')}</span>
-              <span className="label">Mins</span>
-            </div>
-            <div className="countdown-card glass-panel">
-              <span className="number">{String(timeLeft.seconds).padStart(2, '0')}</span>
-              <span className="label">Secs</span>
-            </div>
-          </motion.div>
+
 
           {/* Waitlist Form */}
           <motion.div 
