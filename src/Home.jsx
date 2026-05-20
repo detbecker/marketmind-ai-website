@@ -78,9 +78,9 @@ export default function Home() {
             animate="visible"
             variants={fadeInUp}
           >
-            <a href="#" className="btn btn-primary">
+            <button className="btn btn-primary" onClick={() => navigate('/contact')}>
               Request Demo <ArrowRight size={18} />
-            </a>
+            </button>
             <a href="#architecture" className="btn btn-secondary">
               View the Architecture <Play size={18} />
             </a>
@@ -257,9 +257,9 @@ export default function Home() {
           <p className="body-large mb-3">
             Join the next generation of data-driven CMOs.
           </p>
-          <a href="#" className="btn btn-primary btn-large">
+          <button className="btn btn-primary btn-large" onClick={() => navigate('/contact')}>
             Book a Platform Tour <ArrowRight size={20} />
-          </a>
+          </button>
         </motion.div>
       </section>
 
