@@ -41,9 +41,9 @@ export default function Home() {
           <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" />
         </div>
         <div className="flex gap-4">
-          <a href="mailto:inquiries@ssr-research.ai?subject=MarketMind%20AI%20Inquiry" className="btn btn-secondary btn-sm flex items-center gap-2">
+          <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/contact')}>
             <Mail size={14} /> Contact Us
-          </a>
+          </button>
           <button className="btn btn-secondary btn-sm" onClick={() => navigate('/')}>
             Back to Waitlist
           </button>
