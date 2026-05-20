@@ -1,5 +1,6 @@
 // src/Home.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Network, TrendingUp, Target, ArrowRight, Play } from 'lucide-react';
 import './Home.css';
@@ -25,6 +26,8 @@ const staggerContainer = {
 };
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="home-wrapper">
       {/* Background glow effects */}
@@ -34,9 +37,12 @@ export default function Home() {
 
       {/* Navigation (Simple) */}
       <nav className="navbar container">
-        <div className="logo-container">
+        <div className="logo-container" onClick={() => navigate('/')}>
           <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" />
         </div>
+        <button className="btn btn-secondary btn-sm" onClick={() => navigate('/')}>
+          Back to Waitlist
+        </button>
       </nav>
 
       {/* 1. HERO SECTION */}
