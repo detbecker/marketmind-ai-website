@@ -1,34 +1,12 @@
 // src/ComingSoon.jsx
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Network, TrendingUp, Target, ArrowRight, Mail, Sparkles, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Network, TrendingUp, Target, ArrowRight, Mail, Sparkles } from 'lucide-react';
 import './ComingSoon.css';
 
 export default function ComingSoon() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState('');
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!email) {
-      setError('Please enter your email address.');
-      return;
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-
-    setError('');
-    setIsSubmitted(true);
-    // Simulate API registration, e.g., storing in local storage or analytics
-    localStorage.setItem('marketmind_waitlist_email', email);
-  };
 
   return (
     <div className="coming-soon-wrapper">
@@ -88,64 +66,19 @@ export default function ComingSoon() {
 
 
 
-          {/* Waitlist Form */}
+          {/* Contact Redirect Button */}
           <motion.div 
-            className="form-container-cs mt-10 max-w-lg mx-auto"
+            className="flex justify-center mt-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <AnimatePresence mode="wait">
-              {!isSubmitted ? (
-                <motion.form 
-                  key="form"
-                  onSubmit={handleSubmit} 
-                  className="waitlist-form glass-panel"
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="input-group">
-                    <Mail className="input-icon text-gray-500" size={18} />
-                    <input 
-                      type="email" 
-                      placeholder="Enter your work email..." 
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                        if (error) setError('');
-                      }}
-                      className="email-input"
-                    />
-                    <button type="submit" className="btn btn-primary submit-btn">
-                      Join Waitlist <ArrowRight size={16} />
-                    </button>
-                  </div>
-                  {error && (
-                    <motion.p 
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="error-message"
-                    >
-                      {error}
-                    </motion.p>
-                  )}
-                </motion.form>
-              ) : (
-                <motion.div 
-                  key="success"
-                  className="success-card glass-panel text-center p-8 rounded-2xl border border-gray-800"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 100 }}
-                >
-                  <CheckCircle size={48} className="success-icon text-emerald-400 mx-auto" />
-                  <h3 className="h3 mt-4 text-white text-2xl font-bold">You're on the list!</h3>
-                  <p className="body-text text-gray-300 mt-3 max-w-md mx-auto leading-relaxed">
-                    Thank you for your interest in MarketMind AI. You will be contacted soon with more information.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <button 
+              className="btn btn-primary btn-large flex items-center gap-3"
+              onClick={() => navigate('/contact')}
+            >
+              Request Beta Access <ArrowRight size={20} />
+            </button>
           </motion.div>
         </div>
 
