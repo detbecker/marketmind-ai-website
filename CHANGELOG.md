@@ -5,7 +5,7 @@ All notable changes to the **MarketMind AI Website** project will be documented 
 ## [1.1.0] - 2026-05-20
 
 ### Added
-- **Global Google Analytics**: Integrated the Google Tag (gtag.js) script with measurement ID `G-E2EGBB88KM` into the `<head>` of `index.html` to enable page-view and user tracking across all current and future routes.
+- **Global Google Analytics**: Integrated the Google Tag Manager (GTM) container `GTM-KNSPHJXZ` into the `<head>` and `<body>` of `index.html` to support unified event tracking.
 - **Static Logo & Favicon Assets**: Added `MMAI-Dark.png` and `favicon.png` into the `public/` directory for static serving.
 - **Interactive Logo & Back Navigation**:
   - Configured logo containers in both `ComingSoon.jsx` and `Home.jsx` to be clickable, routing users back to the Coming Soon landing page (`/`).
