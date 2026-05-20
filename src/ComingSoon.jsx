@@ -42,8 +42,7 @@ export default function ComingSoon() {
       {/* Navigation */}
       <nav className="navbar container">
         <div className="logo-container">
-          <div className="logo-icon">M</div>
-          <span className="logo-text font-bold text-lg tracking-wider">MarketMind AI</span>
+          <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" />
         </div>
         <button className="btn btn-secondary btn-sm" onClick={() => navigate('/details')}>
           Concept Details <ArrowRight size={14} />
@@ -192,8 +191,7 @@ export default function ComingSoon() {
       <footer className="footer container mt-20">
         <div className="footer-content border-t border-gray-800 pt-8 flex justify-between items-center flex-wrap gap-4">
           <div className="logo-container">
-            <div className="logo-icon small">M</div>
-            <span className="logo-text">MarketMind AI</span>
+            <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img small" />
           </div>
           <p className="copyright text-gray-500 text-sm">&copy; {new Date().getFullYear()} MarketMind AI. All rights reserved.</p>
         </div>

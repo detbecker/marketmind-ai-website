@@ -35,8 +35,7 @@ export default function Home() {
       {/* Navigation (Simple) */}
       <nav className="navbar container">
         <div className="logo-container">
-          <div className="logo-icon">M</div>
-          <span className="logo-text">MarketMind AI</span>
+          <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" />
         </div>
       </nav>
 
@@ -257,8 +256,7 @@ export default function Home() {
       <footer className="footer container">
         <div className="footer-content">
           <div className="logo-container">
-            <div className="logo-icon small">M</div>
-            <span className="logo-text">MarketMind AI</span>
+            <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img small" />
           </div>
           <p className="copyright">&copy; {new Date().getFullYear()} MarketMind AI. All rights reserved.</p>
         </div>
