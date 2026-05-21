@@ -15,6 +15,10 @@ All notable changes to the **MarketMind AI Website** project will be documented 
   - Configured `index.html` default template and added dynamic `useEffect` page title management across routes (`ComingSoon.jsx`, `Home.jsx`, `Contact.jsx`) to ensure correct presentation during navigation.
 
 ### Technical & Infrastructure
+- **LCP Payload Optimization**: Compressed and resized `/MMAI-Dark.png` to a 500px maximum width, reducing file size by ~98% (from 4.06 MB to ~64 KB). Explicit `width="237"` and `height="112"` attributes were applied to logo image tags across components to prevent layout shifts.
+- **SPA Routing & robots.txt**: Created a static `public/robots.txt` file specifying valid crawl directives and the sitemap location to override SPA catch-all routing.
+- **Cache-Control Headers**: Updated `firebase.json` to configure explicit 1-year cache headers (`max-age=31536000, immutable`) for compiled `/assets/**` and 1-week headers for static base assets.
+- **Meta Description**: Injected a complete and descriptive `<meta name="description">` tag into the `<head>` block of `index.html`.
 - **CSS Consolidations**: Centralized all shared `.navbar`, `.logo-container`, `.logo-img`, `.footer`, and `.footer-content` styles in `index.css` to act as the global source of truth across all routes (`/`, `/details`, `/contact`). Removed the redundant duplicates from `Home.css`.
 - **Firebase Deployment**: Executed the client production build and deployed the validated bundle directly to Firebase Hosting for `marketmind-ai-website`.
 
