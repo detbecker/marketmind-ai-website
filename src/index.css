@@ -167,3 +167,55 @@ body {
   font-size: 1rem;
   color: var(--text-muted);
 }
+
+/* Navbar, Footer & Logo Branding */
+.navbar {
+  padding-top: 2.25rem;
+  padding-bottom: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  margin: -0.5rem -0.75rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.logo-container:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.logo-container:active {
+  transform: scale(0.98);
+}
+
+.logo-img {
+  height: 64px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.logo-img.small {
+  height: 40px;
+}
+
+.footer {
+  padding: 2rem 0;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 4rem;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}

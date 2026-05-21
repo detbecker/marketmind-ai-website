@@ -6,57 +6,7 @@
   overflow: hidden;
 }
 
-/* Navbar */
-.navbar {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
-.logo-container {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  cursor: pointer;
-}
-
-.logo-icon {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  color: white;
-  font-size: 1.2rem;
-}
-
-.logo-icon.small {
-  width: 28px;
-  height: 28px;
-  font-size: 1rem;
-}
-
-.logo-img {
-  height: 48px;
-  width: auto;
-  display: block;
-  object-fit: contain;
-}
-
-.logo-img.small {
-  height: 32px;
-}
-
-.logo-text {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
 
 /* Sections */
 .hero-section {
@@ -253,20 +203,7 @@
   font-size: 1.125rem;
 }
 
-/* Footer */
-.footer {
-  padding: 2rem 0;
-  border-top: 1px solid var(--glass-border);
-  margin-top: 4rem;
-}
 
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
 
 .copyright {
   color: var(--text-muted);
