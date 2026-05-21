@@ -8,6 +8,10 @@ import './ComingSoon.css';
 export default function ComingSoon() {
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    document.title = "MarketMindAI- AI Data Analytics";
+  }, []);
+
   return (
     <div className="coming-soon-wrapper">
       {/* Background glow effects */}

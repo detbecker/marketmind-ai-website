@@ -23,6 +23,10 @@ const staggerContainer = {
 export default function Contact() {
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    document.title = "MarketMindAI- AI Data Analytics";
+  }, []);
+
   return (
     <div className="home-wrapper">
       {/* Background glow effects */}

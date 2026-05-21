@@ -10,6 +10,9 @@ All notable changes to the **MarketMind AI Website** project will be documented 
   - Scaled footer logo size proportionally from `32px` to `40px` to maintain correct visual hierarchy across all layouts.
   - Added a premium tracking and padding buffer around the logo container (`padding: 0.5rem 0.75rem` offset by negative margins) to provide proper breathing room.
   - Added subtle hover and active scale animations on the logo container for micro-interaction polish.
+- **SEO & Page Title Standardization**:
+  - Replaced the default placeholder page title with a descriptive marketing title: `"MarketMindAI- AI Data Analytics"`.
+  - Configured `index.html` default template and added dynamic `useEffect` page title management across routes (`ComingSoon.jsx`, `Home.jsx`, `Contact.jsx`) to ensure correct presentation during navigation.
 
 ### Technical & Infrastructure
 - **CSS Consolidations**: Centralized all shared `.navbar`, `.logo-container`, `.logo-img`, `.footer`, and `.footer-content` styles in `index.css` to act as the global source of truth across all routes (`/`, `/details`, `/contact`). Removed the redundant duplicates from `Home.css`.
