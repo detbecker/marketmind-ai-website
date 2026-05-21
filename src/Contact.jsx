@@ -36,7 +36,7 @@ export default function Contact() {
       {/* Navigation */}
       <nav className="navbar container">
         <div className="logo-container" onClick={() => navigate('/')}>
-          <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" />
+          <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" width="237" height="112" />
         </div>
         <div className="flex gap-4">
           <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/details')}>

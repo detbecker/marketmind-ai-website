@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Define the sitemap location once your production sitemap is generated
+Sitemap: https://marketmind-ai.com/sitemap.xml
