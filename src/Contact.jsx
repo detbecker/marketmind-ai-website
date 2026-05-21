@@ -24,7 +24,7 @@ export default function Contact() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    document.title = "MarketMindAI- AI Data Analytics";
+    document.title = "MArketMind-AI  FinOps for Marketing";
   }, []);
 
   return (

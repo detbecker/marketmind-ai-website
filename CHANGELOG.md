@@ -11,7 +11,7 @@ All notable changes to the **MarketMind AI Website** project will be documented 
   - Added a premium tracking and padding buffer around the logo container (`padding: 0.5rem 0.75rem` offset by negative margins) to provide proper breathing room.
   - Added subtle hover and active scale animations on the logo container for micro-interaction polish.
 - **SEO & Page Title Standardization**:
-  - Replaced the default placeholder page title with a descriptive marketing title: `"MarketMindAI- AI Data Analytics"`.
+  - Replaced the default placeholder page title with a descriptive marketing title: `"MArketMind-AI  FinOps for Marketing"`.
   - Configured `index.html` default template and added dynamic `useEffect` page title management across routes (`ComingSoon.jsx`, `Home.jsx`, `Contact.jsx`) to ensure correct presentation during navigation.
 
 ### Technical & Infrastructure
