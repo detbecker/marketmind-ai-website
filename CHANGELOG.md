@@ -2,6 +2,19 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.2.0] - 2026-05-21
+
+### Changed
+- **Logo Visual Prominence**:
+  - Increased navbar logo size from `48px` to `64px` for an authoritative, premium visual presence.
+  - Scaled footer logo size proportionally from `32px` to `40px` to maintain correct visual hierarchy across all layouts.
+  - Added a premium tracking and padding buffer around the logo container (`padding: 0.5rem 0.75rem` offset by negative margins) to provide proper breathing room.
+  - Added subtle hover and active scale animations on the logo container for micro-interaction polish.
+
+### Technical & Infrastructure
+- **CSS Consolidations**: Centralized all shared `.navbar`, `.logo-container`, `.logo-img`, `.footer`, and `.footer-content` styles in `index.css` to act as the global source of truth across all routes (`/`, `/details`, `/contact`). Removed the redundant duplicates from `Home.css`.
+- **Firebase Deployment**: Executed the client production build and deployed the validated bundle directly to Firebase Hosting for `marketmind-ai-website`.
+
 ## [1.1.0] - 2026-05-20
 
 ### Added
