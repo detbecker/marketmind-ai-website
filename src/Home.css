@@ -262,3 +262,9 @@
     display: none;
   }
 }
+
+/* LCP / CLS optimization: lock logo aspect ratio to prevent paint recalculations */
+.logo-img {
+  aspect-ratio: 237 / 112;
+  contain: content;
+}
