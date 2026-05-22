@@ -56,8 +56,8 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
         >
           <span className="badge">Connect Responsibly</span>
-          <h1 className="h1 text-gradient-purple-blue mt-4">Contact Us</h1>
-          <h2 className="h2 text-xl mt-4 text-gray-300">Secure Your Enterprise Trial</h2>
+          <h1 className="h1 text-gradient-purple-blue mt-4">Connect with MarketMind AI</h1>
+          <h2 className="h2 text-xl mt-4 text-gray-300">Enterprise Data Engineering for Scale-Stage Portfolios</h2>
           <p className="hero-subtitle max-w-2xl mx-auto mt-6 text-gray-300">
             We'd love to hear about your goals and constraints. Let's design a path to value — responsibly.
           </p>
@@ -113,9 +113,9 @@ export default function Contact() {
               </p>
             </div>
             
-            <button className="btn btn-secondary btn-sm w-full flex items-center justify-center gap-2" onClick={() => navigate('/details')}>
+            <Link to="/details" className="btn btn-secondary btn-sm w-full flex items-center justify-center gap-2">
               See Services <ArrowRight size={14} />
-            </button>
+            </Link>
           </motion.div>
 
           {/* Card 3: MarketMind AI Access */}
@@ -130,10 +130,27 @@ export default function Contact() {
               </p>
             </div>
             
-            <button className="btn btn-secondary btn-sm w-full flex items-center justify-center gap-2" onClick={() => navigate('/')}>
+            <Link to="/" className="btn btn-secondary btn-sm w-full flex items-center justify-center gap-2">
               Join the Beta Waitlist <ArrowRight size={14} />
-            </button>
+            </Link>
           </motion.div>
+        </motion.div>
+
+        {/* Architectural Overview */}
+        <motion.div 
+          className="glass-panel mt-16 p-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+        >
+          <h3 className="h3 text-white text-xl font-bold mb-4">Architectural Integrity</h3>
+          <p className="body-text text-gray-300 mb-4 leading-relaxed">
+            Our framework is built to eliminate platform over-reporting via a Deterministic Data Layer. We deploy Decoupled Multi-Agent systems running specialized GA4 Architect and Attribution Master nodes.
+          </p>
+          <p className="body-text text-gray-300 leading-relaxed">
+            We utilize Late-Stage Token Injection to ensure executive summaries match ledger math to the exact penny. Our core engine applies Systemic Inaction Accountability to mathematically quantify financial opportunity costs resulting from unexecuted budget shifts over previous fiscal quarters.
+          </p>
         </motion.div>
 
         {/* Corporate Info Footer Bar */}
@@ -152,6 +169,10 @@ export default function Contact() {
             Moving Enterprise AI from Research to Production.
           </p>
         </motion.div>
+
+        <div className="mt-8 text-center">
+          <Link to="/" className="nav-back-link text-purple-400 hover:text-white transition-colors text-sm">Return to Home</Link>
+        </div>
       </main>
 
       {/* Footer */}
