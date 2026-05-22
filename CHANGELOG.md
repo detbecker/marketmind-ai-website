@@ -4,6 +4,9 @@ All notable changes to the **MarketMind AI Website** project will be documented 
 
 ## [1.3.1] - 2026-05-22
 
+### Hotfix
+- **fix: correct navbar legibility, inject high-contrast text states, and fix horizontal flex spacing for dark mode theme**: Restructured `src/Navbar.jsx` with a clean `max-w-7xl` wrapper, enforced `gap-8` link group spacing, applied `text-gray-300 hover:text-white` contrast states to all navigation links, and styled the "Back to Homepage" CTA as a solid `bg-purple-600` enterprise anchor. Added `position: relative; z-index: 50` to the global `.navbar` rule in `index.css` to prevent hero canvas glow layers from clipping header text.
+
 ### UI & Architecture
 - **Navigation Normalization Pass**: Standardized the global navigation bar (`src/Navbar.jsx`) across all views. Enforced exact 64px width scaling for the primary brand logo.
 - **Structural Component Removals**: Purged redundant elements including the "View the Architecture" section from the Details layout, and the "Beta Early Access" and "Looking for a Proposal" structural cards from the Contact flow.
