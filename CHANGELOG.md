@@ -2,6 +2,17 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.0] - 2026-05-22
+
+### Security
+- **Global Edge-Security Configuration**: Injected global header protections into `firebase.json` for the root source (`**`), implementing `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and a hardened, strictly scoped `Content-Security-Policy`.
+
+### SEO & Architecture
+- **Canonical Standardization**: Established absolute algorithmic truth by injecting `<link rel="canonical" href="https://marketmind-ai.com/" />` directly into the `index.html` head.
+- **Nested Heading Integrity**: Corrected structural heading gaps by injecting explicit descriptive `<h2>` elements immediately following the existing `<h1>` instances across `Home.jsx`, `ComingSoon.jsx`, and `Contact.jsx`.
+- **Crawlable Internal Routing**: Eliminated JavaScript-only dead-ends by replacing programmatic `useNavigate` clicks on brand logos and "Back to Waitlist" CTAs with semantic React Router `<Link>` components, creating fully explorable explicit text anchors for search indexers.
+- **Text Acceleration (Thin Content Remediation)**: Substantially expanded the body copy within `ComingSoon.jsx` and `Contact.jsx` to push individual page word counts past the 200-word indexation threshold. Integrated high-value architectural terminology, specifically emphasizing the **Deterministic Data Layer** and the **Decoupled Multi-Agent system**.
+
 ## [1.2.0] - 2026-05-21
 
 ### Changed
