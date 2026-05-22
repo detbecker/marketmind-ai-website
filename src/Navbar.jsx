@@ -1,5 +1,5 @@
 // src/Navbar.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
@@ -13,6 +13,7 @@ const navItems = [
 
 export default function Navbar() {
   const { pathname } = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="site-header">
@@ -29,13 +30,31 @@ export default function Navbar() {
           />
         </Link>
 
+        <button
+          type="button"
+          className="nav-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+        >
+          <span className="nav-toggle-line" />
+          <span className="nav-toggle-line" />
+          <span className="nav-toggle-line" />
+        </button>
+
         {/* Pill navigation group */}
-        <nav className="nav-links" aria-label="Primary navigation">
+        <nav
+          id="primary-navigation"
+          className={`nav-links${menuOpen ? ' open' : ''}`}
+          aria-label="Primary navigation"
+        >
           {navItems.map(({ label, to }) => (
             <Link
               key={to}
               to={to}
               className={`nav-link${pathname === to ? ' active' : ''}`}
+              onClick={() => setMenuOpen(false)}
             >
               {label}
             </Link>

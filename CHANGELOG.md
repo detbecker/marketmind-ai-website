@@ -7,6 +7,9 @@ All notable changes to the **MarketMind AI Website** project will be documented 
 ### Chore
 - **chore: configure Linux-specific and inherited metadata exclusions within .gitignore and clear local untracked cache noise**: Expanded `.gitignore` with `**/.DS_Store` (inherited macOS metadata), Linux system artifacts (`*~`, `*.swp`, `.lock`, `.Trash-*`), and `.firebase/` runtime cache. Removed the `.firebase/hosting.ZGlzdA.cache` file from git index tracking via `git rm --cached` without deleting the local asset. Repository staging state is now fully clean.
 
+### Fixed
+- fix: add responsive mobile media queries and stateful hamburger toggle to Navbar to restore smartphone route visibility
+
 ## [1.3.2] - 2026-05-22
 
 ### Fixed
