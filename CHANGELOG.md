@@ -2,6 +2,15 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.1.1] - 2026-05-22
+
+### Added
+- **Dynamic Blog Routing Architecture**: Implemented dynamic slug-based routing (`/blog/:slug`) via React Router to cleanly decouple views from content components.
+- **Data-Driven Article Layer**: Created a unified storage structure at `src/data/blogPosts.js` to isolate editorial copy from core frontend rendering logic.
+
+### Changed
+- **Blog Hub Layout Refactor**: Converted monolithic static layout into a modular index view mapping data cards with explicit aspect-ratio containment on asset wrappers to mitigate Cumulative Layout Shift (CLS).
+
 ## [1.3.3] - 2026-05-22
 
 ### Chore
