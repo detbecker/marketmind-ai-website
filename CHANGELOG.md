@@ -2,6 +2,12 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.2] - 2026-05-22
+
+### Fixed
+- **Navbar Hero Rebuild**: Completely replaced the broken Tailwind-dependent navbar with a dedicated `src/Navbar.css` stylesheet using native CSS. Redesigned as a premium hero-style header with a centered pill navigation group (`Home · Concept · Contact · Blog · Privacy`), logo-left layout, and a gradient "Request Demo" CTA on the right. Added active route highlighting via `useLocation`. Eliminated all Tailwind utility class dependencies from the navbar layer to prevent silent resolution failures against the dark theme background.
+- **New file `src/Navbar.css`**: Introduced a dedicated navbar stylesheet with glassmorphism pill container, per-link hover and active states, and a purple-to-blue gradient CTA button.
+
 ## [1.3.1] - 2026-05-22
 
 ### Hotfix
