@@ -2,6 +2,11 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.7] - 2026-05-22
+
+### Changed
+- **Release Synchronization**: Published the latest `/details` CTA placement updates to Firebase Hosting and synchronized the release state to the GitHub `main` branch.
+
 ## [1.3.6] - 2026-05-22
 
 ### Changed
