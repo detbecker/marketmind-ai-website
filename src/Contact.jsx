@@ -1,6 +1,6 @@
 // src/Contact.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Phone, Mail, FileText, ArrowRight, ArrowLeft, ShieldAlert } from 'lucide-react';
 import './Home.css';
@@ -35,16 +35,16 @@ export default function Contact() {
 
       {/* Navigation */}
       <nav className="navbar container">
-        <div className="logo-container" onClick={() => navigate('/')}>
+        <Link to="/" className="logo-container">
           <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" width="237" height="112" />
-        </div>
+        </Link>
         <div className="flex gap-4">
           <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/details')}>
             Concept Details
           </button>
-          <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/')}>
+          <Link to="/" className="btn btn-secondary btn-sm flex items-center gap-2">
             <ArrowLeft size={14} /> Back to Waitlist
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -57,6 +57,7 @@ export default function Contact() {
         >
           <span className="badge">Connect Responsibly</span>
           <h1 className="h1 text-gradient-purple-blue mt-4">Contact Us</h1>
+          <h2 className="h2 text-xl mt-4 text-gray-300">Secure Your Enterprise Trial</h2>
           <p className="hero-subtitle max-w-2xl mx-auto mt-6 text-gray-300">
             We'd love to hear about your goals and constraints. Let's design a path to value — responsibly.
           </p>
@@ -144,8 +145,8 @@ export default function Contact() {
           transition={{ delay: 0.3 }}
         >
           <h4 className="text-white font-semibold text-lg mb-2">SSR Research and Development, Inc.</h4>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto leading-relaxed">
-            An applied AI engineering lab. We build proprietary, ethical AI architectures and FinOps models that scale securely on Google Cloud.
+          <p className="text-gray-400 text-sm max-w-3xl mx-auto leading-relaxed">
+            An applied AI engineering lab. We build proprietary, ethical AI architectures and FinOps models that scale securely on Google Cloud. Our foundation relies on a Deterministic Data Layer, which strictly standardizes data ingestion to ensure verifiable accuracy across all campaigns. Combined with our Decoupled Multi-Agent system, we offer a robust infrastructure where specialized AI agents operate independently to analyze, predict, and optimize. This architecture systematically removes the bias found in traditional last-click and platform attribution models, providing business leaders with the unvarnished algorithmic truth required for sound, enterprise-grade financial decisions.
           </p>
           <p className="text-purple-400 text-xs font-semibold mt-4 tracking-wider uppercase">
             Moving Enterprise AI from Research to Production.
@@ -156,9 +157,9 @@ export default function Contact() {
       {/* Footer */}
       <footer className="footer container">
         <div className="footer-content">
-          <div className="logo-container" onClick={() => navigate('/')}>
+          <Link to="/" className="logo-container">
             <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img small" />
-          </div>
+          </Link>
           <p className="footer-text">
             MarketMind AI is a product of <a href="https://ssr-research.ai" target="_blank" rel="noopener noreferrer">SSR Research and Development, Inc.</a>
           </p>

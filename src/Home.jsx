@@ -1,6 +1,6 @@
 // src/Home.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Network, TrendingUp, Target, ArrowRight, Play, Mail } from 'lucide-react';
 import './Home.css';
@@ -41,16 +41,16 @@ export default function Home() {
 
       {/* Navigation (Simple) */}
       <nav className="navbar container">
-        <div className="logo-container" onClick={() => navigate('/')}>
+        <Link to="/" className="logo-container">
           <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" width="237" height="112" />
-        </div>
+        </Link>
         <div className="flex gap-4">
           <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/contact')}>
             <Mail size={14} /> Contact Us
           </button>
-          <button className="btn btn-secondary btn-sm" onClick={() => navigate('/')}>
+          <Link to="/" className="btn btn-secondary btn-sm flex items-center gap-2">
             Back to Waitlist
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -66,6 +66,15 @@ export default function Home() {
             Stop letting ad platforms <br className="hidden-mobile" />
             <span className="text-gradient-purple-blue">grade their own homework.</span>
           </motion.h1>
+          
+          <motion.h2 
+            className="h2 text-xl mt-4 mb-2 text-gray-300"
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+          >
+            Enterprise FinOps and Algorithmic Attribution
+          </motion.h2>
           
           <motion.p 
             className="body-large"

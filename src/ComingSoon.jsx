@@ -1,6 +1,6 @@
 // src/ComingSoon.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Network, TrendingUp, Target, ArrowRight, Mail, Sparkles } from 'lucide-react';
 import './ComingSoon.css';
@@ -23,9 +23,9 @@ export default function ComingSoon() {
 
       {/* Navigation */}
       <nav className="navbar container">
-        <div className="logo-container" onClick={() => navigate('/')}>
+        <Link to="/" className="logo-container">
           <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" width="237" height="112" />
-        </div>
+        </Link>
         <div className="flex gap-4">
           <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/contact')}>
             <Mail size={14} /> Contact Us
@@ -59,13 +59,22 @@ export default function ComingSoon() {
             <span className="text-gradient-purple-blue">Marketing Attribution</span>
           </motion.h1>
 
+          <motion.h2
+            className="h2 text-xl mt-4 text-gray-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            Pioneering the Deterministic Data Layer
+          </motion.h2>
+
           <motion.p 
             className="body-large mt-4 text-gray-400 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            We're building the future of multi-agent AI data analysis, Markov chain path mapping, and marketing budget calibration. Join the waitlist to secure early access.
+            We're building the future of multi-agent AI data analysis, Markov chain path mapping, and marketing budget calibration. By integrating our proprietary Deterministic Data Layer, we ensure that every marketing touchpoint is captured with absolute mathematical certainty, eliminating the noise of platform-driven heuristics. Furthermore, our Decoupled Multi-Agent system independently isolates demand and performs advanced Bayesian regression without relying on standard ad network logic. This separation allows us to reveal the pure algorithmic truth behind every conversion, offering enterprise marketing portfolios unprecedented transparency and verifiable performance metrics. Join the waitlist to secure early access.
           </motion.p>
 
 
