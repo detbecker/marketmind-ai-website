@@ -2,6 +2,11 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.4] - 2026-05-22
+
+### Changed
+- **Details-to-Blog Internal Navigation**: Added an internal link in the `/details` "Fractional Chief Data Scientist" section that routes to `/blog/fractional-chief-data-scientist` for deeper boardroom attribution analysis.
+
 ## [1.1.1] - 2026-05-22
 
 ### Added

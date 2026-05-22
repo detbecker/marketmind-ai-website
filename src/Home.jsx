@@ -175,6 +175,12 @@ export default function Home() {
                   </div>
                 </li>
               </ul>
+
+              <div style={{ marginTop: '1.5rem' }}>
+                <Link to="/blog/fractional-chief-data-scientist" className="btn btn-secondary">
+                  Read the full boardroom analysis
+                </Link>
+              </div>
             </motion.div>
             
             <motion.div 
