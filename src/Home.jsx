@@ -177,9 +177,14 @@ export default function Home() {
               </ul>
 
               <div style={{ marginTop: '1.5rem' }}>
-                <Link to="/blog/fractional-chief-data-scientist" className="btn btn-secondary">
-                  Read the full boardroom analysis
-                </Link>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <Link to="/blog/fractional-chief-data-scientist" className="btn btn-secondary">
+                    Read the full boardroom analysis
+                  </Link>
+                  <Link to="/blog/marketing-forensic-engineering-capital-preservation" className="btn btn-secondary">
+                    Read forensic engineering deep dive
+                  </Link>
+                </div>
               </div>
             </motion.div>
             

@@ -2,6 +2,16 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.5] - 2026-05-22
+
+### Added
+- **New Blog Post**: Added "The Mechanics of Marketing Forensic Engineering: Designing Data Pipelines for Capital Preservation" as a new dynamic article at `/blog/marketing-forensic-engineering-capital-preservation`.
+
+### Changed
+- **Cross-Linking Between Details and Blog**: Updated the `/details` "Fractional Chief Data Scientist" section with a direct internal link to the new forensic engineering article.
+- **Article Backlink to Details**: Updated blog detail call-to-action routing to use internal navigation back to `/details`.
+- **Forensic Post Visual Update**: Set the new forensic engineering article hero image to the pasted "2025-2026 Digital Marketing Crisis" infographic for on-page relevance.
+
 ## [1.3.4] - 2026-05-22
 
 ### Changed

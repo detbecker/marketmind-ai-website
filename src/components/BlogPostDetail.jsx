@@ -3,10 +3,12 @@ import { Link, useParams } from 'react-router-dom';
 import Navbar from '../Navbar';
 import { blogPosts } from '../data/blogPosts';
 import workflow2 from '../assets/marketmind_workflow_2.png';
+import decouplingInfographic from '../assets/mmai_infographic_decoupling.png';
 import './Blog.css';
 
 const imageMap = {
   '/src/assets/marketmind_workflow_2.png': workflow2,
+  '/src/assets/mmai_infographic_decoupling.png': decouplingInfographic,
 };
 
 export default function BlogPostDetail() {
@@ -89,9 +91,9 @@ export default function BlogPostDetail() {
           })}
 
           <div style={{ marginTop: '1.75rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <a className="btn btn-primary" href="https://marketmind-ai.com/details" target="_blank" rel="noopener noreferrer">
+            <Link to="/details" className="btn btn-primary">
               Open Full Architecture Brief
-            </a>
+            </Link>
             <Link to="/blog" className="btn btn-secondary">
               Back to Blog Index
             </Link>
