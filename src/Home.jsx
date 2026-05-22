@@ -2,8 +2,9 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Network, TrendingUp, Target, ArrowRight, Play, Mail } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
 import './Home.css';
+import Navbar from './Navbar';
 
 // Import images
 import heroDashboard from './assets/hero_dashboard.png';
@@ -39,20 +40,8 @@ export default function Home() {
       <div className="bg-glow" style={{ top: '40%', right: '-20%' }}></div>
       <div className="bg-glow" style={{ bottom: '-10%', left: '20%' }}></div>
 
-      {/* Navigation (Simple) */}
-      <nav className="navbar container">
-        <Link to="/" className="logo-container">
-          <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" width="237" height="112" />
-        </Link>
-        <div className="flex gap-4">
-          <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/contact')}>
-            <Mail size={14} /> Contact Us
-          </button>
-          <Link to="/" className="btn btn-secondary btn-sm flex items-center gap-2">
-            Back to Waitlist
-          </Link>
-        </div>
-      </nav>
+      {/* Navigation */}
+      <Navbar />
 
       {/* 1. HERO SECTION */}
       <section className="section hero-section container">
@@ -94,9 +83,6 @@ export default function Home() {
             <button className="btn btn-primary" onClick={() => navigate('/contact')}>
               Request Demo <ArrowRight size={18} />
             </button>
-            <a href="#architecture" className="btn btn-secondary">
-              View the Architecture <Play size={18} />
-            </a>
           </motion.div>
         </div>
 
@@ -152,59 +138,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. THE TECHNOLOGY SECTION */}
-      <section id="architecture" className="section tech-section container">
-        <motion.div 
-          className="section-header"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-           <h2 className="h2">Enterprise Data Science,<br /> <span className="text-gradient-purple-blue">Powered by Multi-Agent AI.</span></h2>
-        </motion.div>
-
-        <motion.div 
-          className="grid-3"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-        >
-          {/* Column 1 */}
-          <motion.div className="glass-card" variants={fadeInUp}>
-            <div className="icon-wrapper">
-              <Network size={32} color="var(--accent-purple)" />
-            </div>
-            <h3 className="h3">Customer Journey Pathing</h3>
-            <p className="body-text">
-              We replace legacy heuristics with advanced Bayesian inference and Markov Chain modeling. By calculating the probabilistic influence of every single touchpoint, we correct for inherent platform attribution bias and quantify the true, incremental revenue contribution of each channel.
-            </p>
-          </motion.div>
-
-          {/* Column 2 */}
-          <motion.div className="glass-card" variants={fadeInUp}>
-            <div className="icon-wrapper">
-              <TrendingUp size={32} color="var(--accent-blue)" />
-            </div>
-            <h3 className="h3">GQV Demand Isolation</h3>
-            <p className="body-text">
-              Our engine conditions its regression on Google Query Volume (GQV). By isolating natural organic intent from paid incrementality, we neutralize demand-interception bias. We tell you precisely which ads generated new interest, and which ones simply captured existing momentum.
-            </p>
-          </motion.div>
-
-          {/* Column 3 */}
-          <motion.div className="glass-card" variants={fadeInUp}>
-            <div className="icon-wrapper">
-              <Target size={32} color="#06b6d4" />
-            </div>
-            <h3 className="h3">Calibrated by Google Meridian</h3>
-            <p className="body-text">
-              Multi-touch attribution isn't enough on its own. MarketMind AI integrates Google’s state-of-the-art Meridian Marketing Mix Modeling framework to calibrate our bottom-up user data with top-down market trends, delivering flawless optimal-budget recommendations.
-            </p>
-          </motion.div>
-        </motion.div>
-      </section>
 
       {/* 4. THE OUTPUT SECTION */}
       <section className="section output-section">

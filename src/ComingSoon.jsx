@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Network, TrendingUp, Target, ArrowRight, Mail, Sparkles } from 'lucide-react';
 import './ComingSoon.css';
+import Navbar from './Navbar';
 
 export default function ComingSoon() {
   const navigate = useNavigate();
@@ -22,19 +23,7 @@ export default function ComingSoon() {
       <div className="grid-overlay"></div>
 
       {/* Navigation */}
-      <nav className="navbar container">
-        <Link to="/" className="logo-container">
-          <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" width="237" height="112" />
-        </Link>
-        <div className="flex gap-4">
-          <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/contact')}>
-            <Mail size={14} /> Contact Us
-          </button>
-          <button className="btn btn-secondary btn-sm" onClick={() => navigate('/details')}>
-            Concept Details <ArrowRight size={14} />
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Main Content */}
       <main className="container content-container">

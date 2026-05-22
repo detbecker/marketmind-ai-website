@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Phone, Mail, FileText, ArrowRight, ArrowLeft, ShieldAlert } from 'lucide-react';
 import './Home.css';
+import Navbar from './Navbar';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -34,19 +35,7 @@ export default function Contact() {
       <div className="bg-glow" style={{ top: '60%', right: '-20%' }}></div>
 
       {/* Navigation */}
-      <nav className="navbar container">
-        <Link to="/" className="logo-container">
-          <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" width="237" height="112" />
-        </Link>
-        <div className="flex gap-4">
-          <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={() => navigate('/details')}>
-            Concept Details
-          </button>
-          <Link to="/" className="btn btn-secondary btn-sm flex items-center gap-2">
-            <ArrowLeft size={14} /> Back to Waitlist
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Contact Hero */}
       <header className="hero section container text-center">
@@ -101,39 +90,7 @@ export default function Contact() {
             </a>
           </motion.div>
 
-          {/* Card 2: Looking for a Proposal? */}
-          <motion.div className="glass-panel p-8 flex flex-col justify-between" variants={fadeInUp}>
-            <div>
-              <div className="icon-wrapper mb-6" style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6', width: 'fit-content', padding: '1rem', borderRadius: '12px' }}>
-                <FileText size={24} />
-              </div>
-              <h3 className="h3 text-white text-xl font-bold mb-4">Looking for a Proposal?</h3>
-              <p className="body-text text-gray-300 mb-6 leading-relaxed">
-                Share your timeline, budget range, and most important success criteria. We'll follow up with a structured approach and next steps.
-              </p>
-            </div>
-            
-            <Link to="/details" className="btn btn-secondary btn-sm w-full flex items-center justify-center gap-2">
-              See Services <ArrowRight size={14} />
-            </Link>
-          </motion.div>
 
-          {/* Card 3: MarketMind AI Access */}
-          <motion.div className="glass-panel p-8 flex flex-col justify-between" variants={fadeInUp}>
-            <div>
-              <div className="icon-wrapper mb-6" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#a855f7', width: 'fit-content', padding: '1rem', borderRadius: '12px' }}>
-                <ShieldAlert size={24} />
-              </div>
-              <h3 className="h3 text-white text-xl font-bold mb-4">Beta Early Access</h3>
-              <p className="body-text text-gray-300 mb-6 leading-relaxed">
-                Request early access to our flagship Agentic FinOps platform, or inquire about an Enterprise AI Readiness Audit.
-              </p>
-            </div>
-            
-            <Link to="/" className="btn btn-secondary btn-sm w-full flex items-center justify-center gap-2">
-              Join the Beta Waitlist <ArrowRight size={14} />
-            </Link>
-          </motion.div>
         </motion.div>
 
         {/* Architectural Overview */}

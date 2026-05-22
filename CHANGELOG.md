@@ -2,6 +2,13 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.1] - 2026-05-22
+
+### UI & Architecture
+- **Navigation Normalization Pass**: Standardized the global navigation bar (`src/Navbar.jsx`) across all views. Enforced exact 64px width scaling for the primary brand logo.
+- **Structural Component Removals**: Purged redundant elements including the "View the Architecture" section from the Details layout, and the "Beta Early Access" and "Looking for a Proposal" structural cards from the Contact flow.
+- **Text Adaptations**: Updated legacy layout buttons (previously labeled "Back to Waitlist") to output exactly "Back to Homepage" across the site.
+- **Route Injection**: Added formal routing (`/blog`, `/privacy`) mapped to newly injected component files containing the engineering chronicles placeholder and institutional legal text.
 ## [1.3.0] - 2026-05-22
 
 ### Security
