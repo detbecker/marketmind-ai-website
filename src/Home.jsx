@@ -123,6 +123,12 @@ export default function Home() {
               <div className="callout glass-panel mt-2">
                 <p><strong>It’s time to stop paying for Demand Interception and start investing in Demand Generation.</strong></p>
               </div>
+
+              <div style={{ marginTop: '1.5rem' }}>
+                <Link to="/blog/marketing-forensic-engineering-capital-preservation" className="btn btn-secondary">
+                  Read forensic engineering deep dive
+                </Link>
+              </div>
             </motion.div>
             
             <motion.div 
@@ -177,14 +183,9 @@ export default function Home() {
               </ul>
 
               <div style={{ marginTop: '1.5rem' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                  <Link to="/blog/fractional-chief-data-scientist" className="btn btn-secondary">
-                    Read the full boardroom analysis
-                  </Link>
-                  <Link to="/blog/marketing-forensic-engineering-capital-preservation" className="btn btn-secondary">
-                    Read forensic engineering deep dive
-                  </Link>
-                </div>
+                <Link to="/blog/fractional-chief-data-scientist" className="btn btn-secondary">
+                  Read the full boardroom analysis
+                </Link>
               </div>
             </motion.div>
             

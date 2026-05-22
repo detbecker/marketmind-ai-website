@@ -2,6 +2,11 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.6] - 2026-05-22
+
+### Changed
+- **Details Section CTA Placement Fix**: Moved the "Read forensic engineering deep dive" button to the "The Last-Click Illusion" section on `/details`, while keeping "Read the full boardroom analysis" under the "A Fractional Chief Data Scientist in Your Boardroom" section.
+
 ## [1.3.5] - 2026-05-22
 
 ### Added
