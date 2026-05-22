@@ -1,24 +1,53 @@
+// src/Navbar.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import './Navbar.css';
+
+const navItems = [
+  { label: 'Home',     to: '/'        },
+  { label: 'Concept',  to: '/details' },
+  { label: 'Contact',  to: '/contact' },
+  { label: 'Blog',     to: '/blog'    },
+  { label: 'Privacy',  to: '/privacy' },
+];
 
 export default function Navbar() {
+  const { pathname } = useLocation();
+
   return (
-    <nav className="w-full max-w-7xl mx-auto px-6 py-4 flex items-center justify-between bg-transparent" style={{ position: 'relative', zIndex: 50 }}>
-      <Link to="/" className="logo-container">
-        <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img" style={{ width: '64px', height: 'auto' }} />
-      </Link>
+    <header className="site-header">
+      <div className="nav-inner">
 
-      <div className="flex items-center gap-8">
-        <Link to="/" className="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200 no-underline">Home</Link>
-        <Link to="/details" className="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200 no-underline">Concept Details</Link>
-        <Link to="/contact" className="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200 no-underline">Contact</Link>
-        <Link to="/blog" className="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200 no-underline">Blog</Link>
-        <Link to="/privacy" className="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200 no-underline">Privacy Policy</Link>
+        {/* Logo */}
+        <Link to="/" className="nav-logo-link">
+          <img
+            src="/MMAI-Dark.png"
+            alt="MarketMind AI"
+            className="nav-logo-img"
+            width="237"
+            height="112"
+          />
+        </Link>
+
+        {/* Pill navigation group */}
+        <nav className="nav-links" aria-label="Primary navigation">
+          {navItems.map(({ label, to }) => (
+            <Link
+              key={to}
+              to={to}
+              className={`nav-link${pathname === to ? ' active' : ''}`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Primary CTA */}
+        <Link to="/contact" className="nav-cta">
+          Request Demo
+        </Link>
+
       </div>
-
-      <Link to="/" className="bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200 no-underline">
-        Back to Homepage
-      </Link>
-    </nav>
+    </header>
   );
 }
