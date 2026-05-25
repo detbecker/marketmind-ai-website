@@ -2,6 +2,14 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.8] - 2026-05-25
+
+### Added
+- **Automated Sitemap Generation**: Added a build-linked sitemap generator that compiles the static routes and data-driven blog post URLs into `public/sitemap.xml` before each production build.
+
+### Changed
+- **Search Console Sitemap Remediation**: Published a valid XML sitemap to Firebase Hosting so `https://marketmind-ai.com/sitemap.xml` is served as XML instead of the SPA HTML shell.
+
 ## [1.3.7] - 2026-05-22
 
 ### Changed
