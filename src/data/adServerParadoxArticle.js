@@ -4,7 +4,7 @@ export const adServerParadoxArticle = {
   excerpt:
     'Platform-reported ROAS can look exceptional while financial records tell a different story. This article breaks down the inflation vectors and the deterministic ledger validator that restores truth.',
   date: '2026-06-12',
-  image: '/src/assets/marketmind_workflow_1.jpg',
+  image: '/src/assets/MMAI-Infographic-2.png',
   content: [
     {
       type: 'paragraph',
