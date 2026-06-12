@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Navbar from '../Navbar';
 import { blogPosts } from '../data/blogPosts';
+import adServerParadoxGraphic from '../assets/ad-server-paradox.jpeg';
 import mmaiInfographic2 from '../assets/MMAI-Infographic-2.png';
 import marketmindWorkflow1 from '../assets/marketmind_workflow_1.jpg';
 import workflow2 from '../assets/marketmind_workflow_2.png';
@@ -9,6 +10,7 @@ import decouplingInfographic from '../assets/mmai_infographic_decoupling.png';
 import './Blog.css';
 
 const imageMap = {
+  '/src/assets/ad-server-paradox.jpeg': adServerParadoxGraphic,
   '/src/assets/MMAI-Infographic-2.png': mmaiInfographic2,
   '/src/assets/marketmind_workflow_1.jpg': marketmindWorkflow1,
   '/src/assets/marketmind_workflow_2.png': workflow2,
