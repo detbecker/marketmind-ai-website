@@ -1,4 +1,7 @@
+import { adServerParadoxArticle } from './adServerParadoxArticle.js';
+
 export const blogPosts = [
+  adServerParadoxArticle,
   {
     slug: 'marketing-forensic-engineering-capital-preservation',
     title: 'The Mechanics of Marketing Forensic Engineering: Designing Data Pipelines for Capital Preservation',
