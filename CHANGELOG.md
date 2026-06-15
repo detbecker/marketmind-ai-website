@@ -2,6 +2,57 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.3.9] - 2026-06-15
+
+### Changed
+- **Image SEO Optimization - Comprehensive Refactor**: Implemented complete image asset optimization across the entire site to improve search engine discoverability and user accessibility.
+  - **File Naming Convention**: Renamed all image files to SEO-friendly kebab-case naming conventions with descriptive keywords:
+    - `MMAI-Infographic-2.png` → `multi-touch-attribution-infographic.png`
+    - `hero_dashboard.png` → `marketmind-ai-dashboard.png`
+    - `marketmind_workflow_1.jpg` → `marketmind-workflow-data-processing.jpg`
+    - `marketmind_workflow_2.png` → `marketmind-workflow-insights.png`
+    - `mmai_infographic_decoupling.png` → `ai-decoupling-architecture-diagram.png`
+    - `MMAI-Dark.png` → `marketmind-ai-logo-dark.png`
+
+### Added
+- **Enhanced Alt Text**: Implemented context-specific, descriptive alt text across all images:
+  - Dashboard: "MarketMind AI Dashboard showing real-time marketing analytics and ROAS metrics"
+  - Attribution infographic: "Multi-touch attribution infographic showing last-click illusion vs algorithmic truth"
+  - Workflow diagrams: "MarketMind AI workflow showing data processing pipeline for Bayesian path attribution"
+  - Added dynamic `imageAlt` field to blog post data structure for flexible alt text rendering per blog post
+
+- **JSON-LD Schema Markup**: Added comprehensive schema.org ImageObject markup in `index.html` for six key images to enable rich snippets in Google Images and improve image discoverability:
+  - MarketMind AI Dashboard
+  - Multi-touch Attribution Infographic
+  - MarketMind AI Workflow (data processing)
+  - AI Decoupling Architecture Diagram
+  - Ad Server Paradox Analysis
+  - MarketMind AI Logo
+
+### Removed
+- **Asset Cleanup**: Removed unused and duplicate assets:
+  - Deleted entire `/images/` directory (contained stale duplicates and old versions)
+  - Removed unused `hero.png` from `/src/assets/`
+  - Removed framework scaffolding files (`react.svg`, `vite.svg`)
+
+### Technical
+- **Code Reference Updates**: Updated all image references across 5 React components:
+  - `src/Home.jsx`: 4 image imports + logo reference
+  - `src/Navbar.jsx`: Logo reference with improved alt text
+  - `src/ComingSoon.jsx`: Logo reference
+  - `src/Contact.jsx`: Logo reference
+  - `src/components/BlogPostDetail.jsx`: 5 image imports + dynamic imageMap + `postImage.imageAlt` rendering
+
+- **Data Layer Enhancements**: Updated blog post data structures:
+  - `src/data/blogPosts.js`: Added `imageAlt` fields to 2 blog posts with new image paths
+  - `src/data/adServerParadoxArticle.js`: Added `imageAlt` field and updated image path
+
+### SEO Impact
+- Improved image discoverability in Google Images through keyword-rich filenames and schema markup
+- Enhanced accessibility compliance with descriptive alt text for all images
+- Reduced SEO penalties from uppercase and underscore-separated filenames
+- Increased semantic clarity for search engine crawlers regarding image content and purpose
+
 ## [1.3.8] - 2026-05-25
 
 ### Added
