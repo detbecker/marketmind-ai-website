@@ -8,7 +8,8 @@ export const blogPosts = [
     excerpt:
       'Modern ad platforms operate under a structural conflict of interest, and enterprises need deterministic data engineering to protect growth capital from reporting inflation.',
     date: '2026-05-22',
-    image: '/src/assets/mmai_infographic_decoupling.png',
+    image: '/src/assets/ai-decoupling-architecture-diagram.png',
+    imageAlt: 'AI decoupling architecture diagram showing multi-agent isolation for marketing attribution analysis',
     content: [
       {
         type: 'paragraph',
@@ -126,7 +127,8 @@ export const blogPosts = [
     excerpt:
       'Marketing executives do not have a data scarcity problem; they have an interpretation crisis. MarketMind AI brings continuous, board-level clarity through a multi-agent data science framework.',
     date: '2026-05-20',
-    image: '/src/assets/marketmind_workflow_2.png',
+    image: '/src/assets/marketmind-workflow-insights.png',
+    imageAlt: 'MarketMind AI workflow diagram showing multi-agent system for board-level marketing insights',
     content: [
       {
         type: 'paragraph',

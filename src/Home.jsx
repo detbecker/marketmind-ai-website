@@ -7,9 +7,9 @@ import './Home.css';
 import Navbar from './Navbar';
 
 // Import images
-import heroDashboard from './assets/hero_dashboard.png';
-import infographic2 from './assets/MMAI-Infographic-2.png';
-import workflow1 from './assets/marketmind_workflow_1.jpg';
+import heroDashboard from './assets/marketmind-ai-dashboard.png';
+import infographic2 from './assets/multi-touch-attribution-infographic.png';
+import workflow1 from './assets/marketmind-workflow-data-processing.jpg';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -92,7 +92,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <img src={heroDashboard} alt="MarketMind AI Dashboard" className="hero-image" />
+          <img src={heroDashboard} alt="MarketMind AI Dashboard showing real-time marketing analytics and ROAS metrics" className="hero-image" />
           <div className="floating-badge badge-1">
             <span className="badge-dot green"></span> True ROAS: +24%
           </div>
@@ -138,7 +138,7 @@ export default function Home() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <img src={infographic2} alt="Multi-touch Attribution Infographic" className="rounded-image" />
+              <img src={infographic2} alt="Multi-touch attribution infographic showing last-click illusion vs algorithmic truth" className="rounded-image" />
             </motion.div>
           </div>
         </div>
@@ -196,7 +196,7 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img src={workflow1} alt="MarketMind AI Workflow" className="rounded-image shadow-lg border-subtle" />
+              <img src={workflow1} alt="MarketMind AI workflow showing data processing pipeline for Bayesian path attribution" className="rounded-image shadow-lg border-subtle" />
             </motion.div>
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function Home() {
       <footer className="footer container">
         <div className="footer-content">
           <div className="logo-container">
-            <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img small" />
+            <img src="/marketmind-ai-logo-dark.png" alt="MarketMind AI - FinOps for Marketing" className="logo-img small" />
           </div>
           <p className="footer-text">
             MarketMind AI is a product of <a href="https://ssr-research.ai" target="_blank" rel="noopener noreferrer">SSR Research and Development, Inc.</a>

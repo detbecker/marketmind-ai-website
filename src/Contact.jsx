@@ -136,7 +136,7 @@ export default function Contact() {
       <footer className="footer container">
         <div className="footer-content">
           <Link to="/" className="logo-container">
-            <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img small" />
+            <img src="/marketmind-ai-logo-dark.png" alt="MarketMind AI - FinOps for Marketing" className="logo-img small" />
           </Link>
           <p className="footer-text">
             MarketMind AI is a product of <a href="https://ssr-research.ai" target="_blank" rel="noopener noreferrer">SSR Research and Development, Inc.</a>

@@ -5,6 +5,7 @@ export const adServerParadoxArticle = {
     'Platform-reported ROAS can look exceptional while financial records tell a different story. This article breaks down the inflation vectors and the deterministic ledger validator that restores truth.',
   date: '2026-06-12',
   image: '/src/assets/ad-server-paradox.jpeg',
+  imageAlt: 'Ad server paradox diagram showing how multiple ad networks self-attribute credit to the same conversion',
   content: [
     {
       type: 'paragraph',

@@ -22,8 +22,8 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="nav-logo-link">
           <img
-            src="/MMAI-Dark.png"
-            alt="MarketMind AI"
+            src="/marketmind-ai-logo-dark.png"
+            alt="MarketMind AI - FinOps for Marketing"
             className="nav-logo-img"
             width="237"
             height="112"

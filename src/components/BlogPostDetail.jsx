@@ -3,18 +3,18 @@ import { Link, useParams } from 'react-router-dom';
 import Navbar from '../Navbar';
 import { blogPosts } from '../data/blogPosts';
 import adServerParadoxGraphic from '../assets/ad-server-paradox.jpeg';
-import mmaiInfographic2 from '../assets/MMAI-Infographic-2.png';
-import marketmindWorkflow1 from '../assets/marketmind_workflow_1.jpg';
-import workflow2 from '../assets/marketmind_workflow_2.png';
-import decouplingInfographic from '../assets/mmai_infographic_decoupling.png';
+import mmaiInfographic2 from '../assets/multi-touch-attribution-infographic.png';
+import marketmindWorkflow1 from '../assets/marketmind-workflow-data-processing.jpg';
+import workflow2 from '../assets/marketmind-workflow-insights.png';
+import decouplingInfographic from '../assets/ai-decoupling-architecture-diagram.png';
 import './Blog.css';
 
 const imageMap = {
   '/src/assets/ad-server-paradox.jpeg': adServerParadoxGraphic,
-  '/src/assets/MMAI-Infographic-2.png': mmaiInfographic2,
-  '/src/assets/marketmind_workflow_1.jpg': marketmindWorkflow1,
-  '/src/assets/marketmind_workflow_2.png': workflow2,
-  '/src/assets/mmai_infographic_decoupling.png': decouplingInfographic,
+  '/src/assets/multi-touch-attribution-infographic.png': mmaiInfographic2,
+  '/src/assets/marketmind-workflow-data-processing.jpg': marketmindWorkflow1,
+  '/src/assets/marketmind-workflow-insights.png': workflow2,
+  '/src/assets/ai-decoupling-architecture-diagram.png': decouplingInfographic,
 };
 
 export default function BlogPostDetail() {
@@ -62,7 +62,7 @@ export default function BlogPostDetail() {
           <figure className="blog-post-image-shell">
             <img
               src={postImage}
-              alt="End-to-end multi-agent cross-channel data and agentic flow for MarketMind AI"
+              alt={post.imageAlt || "MarketMind AI visualization for marketing attribution analysis"}
               className="blog-post-image"
               width="1408"
               height="792"

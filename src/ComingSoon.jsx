@@ -131,7 +131,7 @@ export default function ComingSoon() {
       <footer className="footer container mt-20">
         <div className="footer-content border-t border-gray-800 pt-8 flex justify-between items-center flex-wrap gap-4">
           <div className="logo-container">
-            <img src="/MMAI-Dark.png" alt="MarketMind AI" className="logo-img small" />
+            <img src="/marketmind-ai-logo-dark.png" alt="MarketMind AI - FinOps for Marketing" className="logo-img small" />
           </div>
           <p className="footer-text">
             MarketMind AI is a product of <a href="https://ssr-research.ai" target="_blank" rel="noopener noreferrer">SSR Research and Development, Inc.</a>
