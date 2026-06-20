@@ -71,12 +71,23 @@
       "description": "MarketMind AI company logo for FinOps and marketing attribution platform"
     }
     </script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KNSPHJXZ"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+    <df-messenger
+      project-id="ssr-research-dev"
+      agent-id="YOUR_AGENT_ID"
+      language-code="en"
+      max-min-button="true"
+      chat-icon="/favicon.png">
+      <df-messenger-chat-bubble
+        chat-title="Forensic Data Architect">
+      </df-messenger-chat-bubble>
+    </df-messenger>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

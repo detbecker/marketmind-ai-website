@@ -2,6 +2,11 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.4.0] - 2026-06-20
+
+### Added
+- feat: integrate GCP Agent Studio conversational bot and apply dark theme shadow-DOM CSS overrides.
+
 ## [1.3.9] - 2026-06-15
 
 ### Changed
