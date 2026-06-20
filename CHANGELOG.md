@@ -2,6 +2,11 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.1] - 2026-06-20
+
+### Fixed
+- **Gemini Model Update**: Upgraded the chatbot model from the deprecated `gemini-2.0-flash` to `gemini-2.5-flash` to restore live chatbot responses.
+
 ## [1.5.0] - 2026-06-20
 
 ### Added

@@ -4,7 +4,7 @@ import './ChatWidget.css';
 
 // ─── Configuration ────────────────────────────────────────────────────────────
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_MODEL   = 'gemini-2.0-flash';
+const GEMINI_MODEL   = 'gemini-2.5-flash';
 const NOTIFY_URL     = import.meta.env.VITE_NOTIFY_FUNCTION_URL || '';
 
 const SYSTEM_INSTRUCTION = `You are the Lead Forensic Data Architect for MarketMind AI. You are interacting with Chief Marketing Officers, Chief Financial Officers, Venture Capitalists, and Enterprise Data Engineers on the public marketing site: https://marketmind-ai.com.
