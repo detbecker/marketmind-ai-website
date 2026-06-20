@@ -67,8 +67,53 @@ Preview the production build locally:
 npm run preview
 ```
 
+## Chatbot Security Setup
+
+The chatbot now uses a server-side proxy to call Gemini so browser clients do not need a direct AI key.
+
+Frontend environment variables:
+
+- VITE_CHAT_PROXY_URL: HTTPS URL of the deployed chatProxy function
+- VITE_CHAT_PROXY_TOKEN: Optional shared secret header for chatProxy requests
+- VITE_NOTIFY_FUNCTION_URL: HTTPS URL of the deployed chatNotify function
+- VITE_NOTIFY_FUNCTION_TOKEN: Optional shared secret header for chatNotify requests
+
+Backend Cloud Function environment variables:
+
+- GEMINI_API_KEY: Server-side Gemini key used by chatProxy
+- GEMINI_MODEL: Optional, defaults to gemini-2.5-flash
+- CHAT_PROXY_TOKEN: Optional shared secret expected in x-chat-proxy-token
+- CHAT_NOTIFY_TOKEN: Optional shared secret expected in x-chat-notify-token
+- SENDGRID_API_KEY and SENDGRID_SENDER_EMAIL for lead notifications
+
+## Security And Stress Test Commands
+
+Security smoke test for webhook:
+
+```bash
+npm run security:test:notify -- --url https://your-cloud-function-url
+```
+
+Security smoke test for chat proxy:
+
+```bash
+npm run security:test:proxy -- --url https://your-chat-proxy-url
+```
+
+Stress test for webhook:
+
+```bash
+npm run stress:test:notify -- --url https://your-cloud-function-url --total 200 --concurrency 25
+```
+
+Stress test for chat proxy:
+
+```bash
+npm run stress:test:proxy -- --url https://your-chat-proxy-url --total 100 --concurrency 10
+```
+
 ## Notes
 
-- The current waitlist form stores the submitted email in `localStorage`.
+- The current waitlist form stores the submitted email in localStorage.
 - Firebase configuration files are included for deployment.
 - The original README was the default Vite starter README and has been replaced with project-specific documentation.

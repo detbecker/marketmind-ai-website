@@ -1,3 +1,4 @@
+/* global exports, process, require */
 /**
  * chatNotify — MarketMind AI Chat Notification Cloud Function
  *
@@ -17,20 +18,111 @@
 const { Firestore } = require('@google-cloud/firestore');
 
 const firestore = new Firestore();
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const MAX_MESSAGES = 50;
+const MAX_MESSAGE_LENGTH = 4000;
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 30;
+const rateLimitMap = new Map();
+const ALLOWED_ORIGINS = [
+  'https://marketmind-ai.com',
+  'https://marketmind-ai-497018.web.app',
+  'https://marketmind-ai-497018.firebaseapp.com',
+];
+const SYSTEM_INSTRUCTION = `You are the Lead Forensic Data Architect for MarketMind AI. You are speaking with executives and enterprise technical buyers.
 
-exports.chatNotify = async (req, res) => {
-  // CORS — allow the production domain and the Firebase preview domain
-  const allowedOrigins = [
-    'https://marketmind-ai.com',
-    'https://marketmind-ai-website.web.app',
-    'https://marketmind-ai-website.firebaseapp.com',
-  ];
+Style and constraints:
+- Be concise and high-signal.
+- Keep replies below 3 short paragraphs.
+- Stay focused on attribution, auditability, and FinOps for marketing.
+- Do not invent pricing.
+- Do not promise launch timelines beyond Fall 2026.
+- Do not mention competitors by name.
+
+Core positioning:
+- Platform-reported ROAS is self-attributed and often inflated.
+- MarketMind AI provides an independent deterministic data layer and a Bayesian Markov attribution model.
+- Results are calibrated against Meridian MMM for validation.
+- The system isolates demand interception versus demand creation.
+
+Call to action:
+- If a user asks for demos, pricing discussions, beta, partnerships, or follow-up, ask for a business email and confirm the request has been flagged.
+- For beta access, direct users to https://marketmind-ai.com/contact.`;
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (typeof forwarded === 'string' && forwarded.trim()) {
+    return forwarded.split(',')[0].trim();
+  }
+  return req.ip || req.socket?.remoteAddress || 'unknown';
+}
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const current = rateLimitMap.get(ip) || { count: 0, start: now };
+
+  if (now - current.start > RATE_LIMIT_WINDOW_MS) {
+    rateLimitMap.set(ip, { count: 1, start: now });
+    return false;
+  }
+
+  current.count += 1;
+  rateLimitMap.set(ip, current);
+  return current.count > RATE_LIMIT_MAX_REQUESTS;
+}
+
+function sanitizeMessages(rawMessages) {
+  if (!Array.isArray(rawMessages)) return [];
+
+  return rawMessages
+    .slice(0, MAX_MESSAGES)
+    .map((msg) => {
+      const role = msg?.role === 'user' ? 'user' : 'assistant';
+      const text = typeof msg?.text === 'string' ? msg.text : '';
+      return {
+        role,
+        text: text.slice(0, MAX_MESSAGE_LENGTH),
+      };
+    });
+}
+
+function sanitizeChatMessages(rawMessages) {
+  if (!Array.isArray(rawMessages)) return [];
+
+  return rawMessages
+    .slice(-30)
+    .map((msg) => {
+      const role = msg?.role === 'assistant' ? 'model' : 'user';
+      const text = typeof msg?.text === 'string' ? msg.text : '';
+      return {
+        role,
+        parts: [{ text: text.slice(0, 2000) }],
+      };
+    })
+    .filter((msg) => msg.parts[0].text.length > 0);
+}
+
+function setCorsHeaders(req, res) {
   const origin = req.headers.origin || '';
-  if (allowedOrigins.includes(origin) || origin.startsWith('http://localhost')) {
+  if (ALLOWED_ORIGINS.includes(origin) || origin.startsWith('http://localhost')) {
     res.set('Access-Control-Allow-Origin', origin);
   }
   res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.set('Access-Control-Allow-Headers', 'Content-Type, x-chat-notify-token, x-chat-proxy-token');
+}
+
+exports.chatNotify = async (req, res) => {
+  setCorsHeaders(req, res);
 
   // Preflight
   if (req.method === 'OPTIONS') {
@@ -42,14 +134,31 @@ exports.chatNotify = async (req, res) => {
   }
 
   try {
+    const clientIp = getClientIp(req);
+    if (isRateLimited(clientIp)) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+
+    // Optional shared-secret auth to protect against direct endpoint abuse.
+    const expectedToken = process.env.CHAT_NOTIFY_TOKEN;
+    if (expectedToken) {
+      const providedToken = req.headers['x-chat-notify-token'];
+      if (providedToken !== expectedToken) {
+        return res.status(401).json({ error: 'Unauthorized request.' });
+      }
+    }
+
     const { email, sessionId, messages } = req.body || {};
 
     // Basic validation
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    if (!email || typeof email !== 'string' || !EMAIL_RE.test(email.trim()) || email.length > 320) {
       return res.status(400).json({ error: 'Invalid or missing email address.' });
     }
 
-    const safeSessionId = (sessionId || `session-${Date.now()}`).replace(/[^a-zA-Z0-9\-_]/g, '');
+    const rawSessionId = typeof sessionId === 'string' ? sessionId : '';
+    const normalizedSessionId = rawSessionId.replace(/[^a-zA-Z0-9\-_]/g, '').slice(0, 128);
+    const safeSessionId = normalizedSessionId || `session-${Date.now()}`;
+    const safeMessages = sanitizeMessages(messages);
     const timestamp = new Date();
 
     // 1. Store in Firestore
@@ -57,9 +166,10 @@ exports.chatNotify = async (req, res) => {
       {
         email:     email.trim().toLowerCase(),
         sessionId: safeSessionId,
-        messages:  Array.isArray(messages) ? messages : [],
+        messages:  safeMessages,
         createdAt: timestamp,
         status:    'new',
+        sourceIp:  clientIp,
       },
       { merge: true }
     );
@@ -73,13 +183,13 @@ exports.chatNotify = async (req, res) => {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
         // Format message history for email body
-        const transcriptHtml = Array.isArray(messages)
-          ? messages
+        const transcriptHtml = safeMessages.length
+          ? safeMessages
               .map(
                 (m) =>
                   `<tr style="vertical-align:top;">
                     <td style="padding:6px 12px;font-weight:600;color:${m.role === 'user' ? '#1d4ed8' : '#374151'};white-space:nowrap;min-width:80px;">${m.role === 'user' ? 'Visitor' : 'Assistant'}</td>
-                    <td style="padding:6px 12px;color:#374151;">${m.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>
+                    <td style="padding:6px 12px;color:#374151;">${escapeHtml(m.text)}</td>
                   </tr>`
               )
               .join('')
@@ -119,7 +229,7 @@ exports.chatNotify = async (req, res) => {
       </table>
     </div>
     <div style="padding:16px 28px;background:#f3f4f6;border-top:1px solid #e5e7eb;">
-      <p style="margin:0;font-size:12px;color:#9ca3af;">View full session in <a href="https://console.firebase.google.com/project/marketmind-ai-website/firestore" style="color:#1d4ed8;">Firestore</a> → chat_leads → ${safeSessionId}</p>
+      <p style="margin:0;font-size:12px;color:#9ca3af;">View full session in <a href="https://console.firebase.google.com/project/marketmind-ai-497018/firestore" style="color:#1d4ed8;">Firestore</a> → chat_leads → ${safeSessionId}</p>
     </div>
   </div>
 </body>
@@ -139,6 +249,77 @@ exports.chatNotify = async (req, res) => {
 
   } catch (err) {
     console.error('[chatNotify] Unhandled error:', err);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+};
+
+exports.chatProxy = async (req, res) => {
+  setCorsHeaders(req, res);
+
+  if (req.method === 'OPTIONS') {
+    return res.status(204).send('');
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const clientIp = getClientIp(req);
+    if (isRateLimited(`proxy:${clientIp}`)) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+
+    const expectedToken = process.env.CHAT_PROXY_TOKEN;
+    if (expectedToken) {
+      const providedToken = req.headers['x-chat-proxy-token'];
+      if (providedToken !== expectedToken) {
+        return res.status(401).json({ error: 'Unauthorized request.' });
+      }
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ error: 'Server AI key is not configured.' });
+    }
+
+    const { messages } = req.body || {};
+    const safeMessages = sanitizeChatMessages(messages);
+
+    if (!safeMessages.length) {
+      return res.status(400).json({ error: 'Missing messages payload.' });
+    }
+
+    const apiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+          contents: safeMessages,
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 512,
+          },
+        }),
+      }
+    );
+
+    if (!apiResponse.ok) {
+      const errorText = await apiResponse.text();
+      console.error('[chatProxy] Gemini API error:', apiResponse.status, errorText);
+      return res.status(502).json({ error: 'Upstream AI service error.' });
+    }
+
+    const data = await apiResponse.json();
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+    if (!reply) {
+      return res.status(502).json({ error: 'Empty response from AI service.' });
+    }
+
+    return res.status(200).json({ reply });
+  } catch (err) {
+    console.error('[chatProxy] Unhandled error:', err);
     return res.status(500).json({ error: 'Internal server error.' });
   }
 };

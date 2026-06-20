@@ -9,12 +9,17 @@
     "prebuild": "npm run sitemap",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "security:test:notify": "node scripts/security-chat-smoke.mjs --mode notify",
+    "security:test:proxy": "node scripts/security-chat-smoke.mjs --mode proxy",
+    "stress:test:notify": "node scripts/stress-chat-endpoint.mjs --mode notify",
+    "stress:test:proxy": "node scripts/stress-chat-endpoint.mjs --mode proxy"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.8.0",
     "react": "^19.2.4",
+    "react-cookie-consent": "^10.0.1",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.14.1"
   },

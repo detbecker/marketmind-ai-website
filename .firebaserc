@@ -1,5 +1,15 @@
 {
   "projects": {
-    "default": "marketmind-ai-website"
-  }
+    "default": "marketmind-ai-497018"
+  },
+  "targets": {
+    "marketmind-ai-497018": {
+      "hosting": {
+        "live": [
+          "marketmind-ai-497018"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
