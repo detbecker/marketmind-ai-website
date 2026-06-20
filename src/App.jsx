@@ -1,13 +1,14 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import CookieConsent from "react-cookie-consent";
 import ComingSoon from './ComingSoon';
 import Home from './Home';
 import Contact from './Contact';
 import BlogIndex from './components/BlogIndex';
 import BlogPostDetail from './components/BlogPostDetail';
 import PrivacyPolicy from './Privacy';
-import ChatWidget from './ChatWidget';
+import ChatGateway from './components/ChatGateway';
 import './index.css';
 
 function App() {
@@ -21,8 +22,37 @@ function App() {
         <Route path="/blog/:slug" element={<BlogPostDetail />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
       </Routes>
-      {/* Global chat widget — persists across all routes */}
-      <ChatWidget />
+      <CookieConsent
+        location="bottom"
+        buttonText="Accept All"
+        declineButtonText="Decline Optional"
+        enableDeclineButton={true}
+        style={{
+          background: 'rgba(8, 8, 12, 0.96)',
+          backdropFilter: 'blur(8px)',
+          borderTop: '1px solid #1e1e24',
+          color: '#e5e7eb',
+          zIndex: 999,
+        }}
+        buttonStyle={{
+          background: '#6b21a8',
+          color: '#fff',
+          borderRadius: '8px',
+          fontWeight: '600',
+          padding: '10px 20px',
+        }}
+        declineButtonStyle={{
+          background: 'transparent',
+          color: '#9ca3af',
+          border: '1px solid #374151',
+          borderRadius: '8px',
+          padding: '10px 20px',
+        }}
+      >
+        MarketMind AI utilizes minimal, deterministic cookies to ensure platform security and analyze site traffic. We do not sell your data to ad networks.
+      </CookieConsent>
+      {/* Global zero-trust chat gateway — persists across all routes */}
+      <ChatGateway />
     </BrowserRouter>
   );
 }
