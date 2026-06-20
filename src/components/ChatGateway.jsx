@@ -81,7 +81,7 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
     }
 
     loadRecaptchaScript(RECAPTCHA_SITE_KEY).catch(() => {
-      setErrorText('Unable to initialize bot verification. Please refresh and try again.');
+      setErrorText('Unable to initialize bot verification. Please disable content-blocking for Google reCAPTCHA or refresh and try again.');
     });
   }, []);
 
@@ -148,7 +148,7 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
 
       setIsVerified(true);
     } catch {
-      setErrorText('Unable to verify your session. Please try again.');
+      setErrorText('Unable to verify your session. If you use a blocker or hardened privacy mode, allow Google reCAPTCHA and try again.');
     } finally {
       setIsSubmitting(false);
     }
