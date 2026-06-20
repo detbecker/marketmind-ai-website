@@ -3,52 +3,10 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './ChatWidget.css';
 
 // ─── Configuration ────────────────────────────────────────────────────────────
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_MODEL   = 'gemini-2.5-flash';
 const NOTIFY_URL     = import.meta.env.VITE_NOTIFY_FUNCTION_URL || '';
-
-const SYSTEM_INSTRUCTION = `You are the Lead Forensic Data Architect for MarketMind AI. You are interacting with Chief Marketing Officers, Chief Financial Officers, Venture Capitalists, and Enterprise Data Engineers on the public marketing site: https://marketmind-ai.com.
-
-Your Tone:
-- Highly professional, analytical, direct, and sophisticated.
-- Do not use generic AI buzzwords like "supercharge," "revolutionize," or "unleash."
-- Speak like a seasoned enterprise auditor or senior engineer. Be informative but casual.
-- Keep responses concise (under 3 short paragraphs). Enterprise executives do not want to read walls of text.
-
-Your Core Knowledge & Philosophy:
-1. The Problem: Modern ad platforms (Google, Meta, etc.) suffer from the "Self-Attributed Network Paradox." They grade their own homework, claim 100% credit for multi-touch conversions, and inflate their performance metrics. This is not fraud—it's a structural measurement failure baked into the industry.
-2. The Solution: MarketMind AI deploys a Decoupled Multi-Agent Architecture. Our system uses a Deterministic Data Layer to capture every real touchpoint from raw server logs, CRM data, and first-party behavioral signals—bypassing platform-reported data entirely. We then run a Bayesian Markov Chain path attribution model to assign true, probabilistic credit to each channel.
-3. The Validation Layer: We calibrate our attribution output against Google's Meridian Marketing Mix Model (open-source). This creates a two-model validation system: if our Bayesian model and Meridian agree, we have high confidence in the result. If they diverge, we flag it for human review.
-4. GQV Isolation: We isolate Google Query Volume trends to separate "demand interception" (capturing existing demand) from "demand creation" (incremental channel lift). This is critical for accurately measuring the true impact of brand spend.
-
-Key Talking Points for Specific Audiences:
-- For CMOs: "Your platform ROAS is a self-reported metric. We give you an independent, auditable number." Focus on the concept of "independent attribution" and "budget reallocation."
-- For CFOs: "We quantify the financial risk of your current attribution model. Bad data leads to misallocated budgets, which directly impacts EBITDA." Use language of "financial risk," "audit trail," and "verifiable ROI."
-- For VCs: "The marketing attribution market is a $5B+ problem with no credible enterprise solution. We are building the first deterministic, auditable attribution layer." Emphasize "TAM," "defensible data moat," and "proprietary methodology."
-- For Data Engineers: "We ingest raw event streams, apply probabilistic graphical models, and output attribution weights in a queryable BigQuery layer. No black boxes." Focus on the technical architecture.
-
-Product Features:
-- Deterministic Data Layer: Raw log ingestion, identity resolution, touchpoint mapping.
-- Decoupled Multi-Agent AI: Independent agents for data validation, path modeling, and anomaly detection.
-- Bayesian Markov Chain Attribution: Probabilistic credit assignment across the full customer journey.
-- Meridian MMM Calibration: Google's open-source Marketing Mix Model used as a validation layer.
-- GQV Isolation Engine: Separates demand interception from incremental channel lift.
-- Enterprise Audit Trail: Every attribution decision is logged, versioned, and auditable.
-
-Important Business Context:
-- MarketMind AI is launching in Fall 2026.
-- It is a product of SSR Research and Development, Inc.
-- The website is https://marketmind-ai.com.
-- To request beta access or a demo, direct users to the contact page: https://marketmind-ai.com/contact.
-
-Email Capture Protocol:
-When a user expresses genuine interest (asking about pricing, beta access, demos, partnership, or wanting to learn more), proactively ask for their business email address. Say something like: "I'd be happy to have one of our engineers follow up with you directly. What's the best business email address to reach you?" Validate that it looks like a legitimate business email (not a generic personal address if possible). Once captured, confirm: "Got it. I've flagged your inquiry for our team."
-
-What You Do NOT Do:
-- Do not make up specific pricing figures.
-- Do not promise specific timelines beyond "Fall 2026."
-- Do not discuss competitors by name.
-- Do not engage with off-topic questions. Politely redirect: "I'm focused specifically on marketing attribution and the MarketMind AI platform. How can I help you with that?"`;
+const NOTIFY_TOKEN   = import.meta.env.VITE_NOTIFY_FUNCTION_TOKEN || '';
+const CHAT_PROXY_URL = import.meta.env.VITE_CHAT_PROXY_URL || '';
+const CHAT_PROXY_TOKEN = import.meta.env.VITE_CHAT_PROXY_TOKEN || '';
 
 // ─── Email validation ─────────────────────────────────────────────────────────
 function isValidEmail(email) {
@@ -65,10 +23,21 @@ function extractEmail(text) {
 async function notifyLead({ email, sessionId, messages }) {
   if (!NOTIFY_URL) return;
   try {
+    const boundedMessages = Array.isArray(messages)
+      ? messages.slice(-20).map((m) => ({
+          role: m?.role === 'user' ? 'user' : 'assistant',
+          text: typeof m?.text === 'string' ? m.text.slice(0, 2000) : '',
+        }))
+      : [];
+    const headers = { 'Content-Type': 'application/json' };
+    if (NOTIFY_TOKEN) {
+      headers['x-chat-notify-token'] = NOTIFY_TOKEN;
+    }
+
     await fetch(NOTIFY_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, sessionId, messages }),
+      headers,
+      body: JSON.stringify({ email, sessionId, messages: boundedMessages }),
     });
   } catch (err) {
     console.error('[ChatWidget] Notification failed:', err);
@@ -81,20 +50,19 @@ export default function ChatWidget() {
   const [messages, setMessages]   = useState([
     {
       role: 'assistant',
-      text: "Hello. I'm the Lead Forensic Data Architect here at MarketMind AI. What brings you here today — attribution accuracy, budget reallocation, or something else?",
+      text: "Hello. I'm the MarketMind AI Assistant. What brings you here today — attribution accuracy, budget reallocation, or something else?",
     },
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping]     = useState(false);
   const [capturedEmail, setCapturedEmail] = useState(null);
-  const [emailPending, setEmailPending]   = useState(false);
   const [sessionId]   = useState(() => `chat-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`);
   const [hasNotified, setHasNotified]     = useState(false);
   const [unreadCount, setUnreadCount]     = useState(0);
 
   const messagesEndRef   = useRef(null);
   const inputRef         = useRef(null);
-  const historyRef       = useRef([]); // Gemini multi-turn history
+  const historyRef       = useRef([]);
 
   // Auto-scroll
   useEffect(() => {
@@ -105,9 +73,16 @@ export default function ChatWidget() {
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 100);
-      setUnreadCount(0);
     }
   }, [isOpen]);
+
+  const toggleChat = useCallback(() => {
+    setIsOpen((prev) => {
+      const next = !prev;
+      if (next) setUnreadCount(0);
+      return next;
+    });
+  }, []);
 
   const addMessage = useCallback((role, text) => {
     setMessages(prev => [...prev, { role, text }]);
@@ -118,41 +93,37 @@ export default function ChatWidget() {
 
   // ── Send message to Gemini ────────────────────────────────────────────────
   const sendToGemini = useCallback(async (userText) => {
-    if (!GEMINI_API_KEY) {
+    if (!CHAT_PROXY_URL) {
       addMessage('assistant', 'The AI engine is not configured. Please contact the site administrator.');
       return;
     }
 
-    // Push to Gemini history
-    historyRef.current.push({ role: 'user', parts: [{ text: userText }] });
+    historyRef.current.push({ role: 'user', text: userText.slice(0, 2000) });
 
     setIsTyping(true);
     try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            system_instruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-            contents: historyRef.current,
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 512,
-            },
-          }),
-        }
-      );
+      const headers = { 'Content-Type': 'application/json' };
+      if (CHAT_PROXY_TOKEN) {
+        headers['x-chat-proxy-token'] = CHAT_PROXY_TOKEN;
+      }
+
+      const response = await fetch(CHAT_PROXY_URL, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          messages: historyRef.current.slice(-30),
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`API error ${response.status}`);
       }
 
       const data = await response.json();
-      const replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim()
+      const replyText = data?.reply?.trim()
         || "I didn't catch that. Could you rephrase?";
 
-      historyRef.current.push({ role: 'model', parts: [{ text: replyText }] });
+      historyRef.current.push({ role: 'assistant', text: replyText.slice(0, 2000) });
       addMessage('assistant', replyText);
     } catch (err) {
       console.error('[ChatWidget] Gemini error:', err);
@@ -176,7 +147,6 @@ export default function ChatWidget() {
       const email = extractEmail(text);
       if (email && isValidEmail(email)) {
         setCapturedEmail(email);
-        setEmailPending(true);
         // Let Gemini respond naturally, then fire notification
         await sendToGemini(text);
         if (!hasNotified) {
@@ -190,7 +160,6 @@ export default function ChatWidget() {
             ],
           });
         }
-        setEmailPending(false);
         return;
       }
     }
@@ -218,7 +187,7 @@ export default function ChatWidget() {
               <img src="/favicon.png" alt="" />
             </div>
             <div>
-              <div className="chat-header-title">Forensic Data Architect</div>
+              <div className="chat-header-title">MarketMind AI Assistant</div>
               <div className="chat-header-status">
                 <span className="chat-status-dot" aria-hidden="true"></span>
                 MarketMind AI
@@ -302,7 +271,7 @@ export default function ChatWidget() {
       {/* ── Floating Bubble Button ── */}
       <button
         className={`chat-fab ${isOpen ? 'chat-fab--open' : ''}`}
-        onClick={() => setIsOpen(prev => !prev)}
+        onClick={toggleChat}
         aria-label={isOpen ? 'Close chat' : 'Open chat assistant'}
         aria-expanded={isOpen}
       >
