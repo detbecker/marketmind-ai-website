@@ -45,8 +45,8 @@ async function notifyLead({ email, sessionId, messages }) {
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export default function ChatWidget() {
-  const [isOpen, setIsOpen]       = useState(false);
+export default function ChatWidget({ initialEmail = '', initialOpen = false, bottomOffset = '1.75rem' }) {
+  const [isOpen, setIsOpen]       = useState(initialOpen);
   const [messages, setMessages]   = useState([
     {
       role: 'assistant',
@@ -55,7 +55,7 @@ export default function ChatWidget() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping]     = useState(false);
-  const [capturedEmail, setCapturedEmail] = useState(null);
+  const [capturedEmail, setCapturedEmail] = useState(initialEmail || null);
   const [sessionId]   = useState(() => `chat-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`);
   const [hasNotified, setHasNotified]     = useState(false);
   const [unreadCount, setUnreadCount]     = useState(0);
@@ -165,6 +165,18 @@ export default function ChatWidget() {
     }
 
     await sendToGemini(text);
+
+    if (capturedEmail && !hasNotified) {
+      setHasNotified(true);
+      await notifyLead({
+        email: capturedEmail,
+        sessionId,
+        messages: [
+          ...messages,
+          { role: 'user', text },
+        ],
+      });
+    }
   }, [inputValue, isTyping, capturedEmail, hasNotified, messages, sessionId, sendToGemini, addMessage]);
 
   // ── Keyboard handler ──────────────────────────────────────────────────────
@@ -177,7 +189,7 @@ export default function ChatWidget() {
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="chat-widget-root" role="complementary" aria-label="MarketMind AI Chat Assistant">
+    <div className="chat-widget-root" style={{ bottom: bottomOffset }} role="complementary" aria-label="MarketMind AI Chat Assistant">
       {/* ── Chat Panel ── */}
       <div className={`chat-panel ${isOpen ? 'chat-panel--open' : ''}`} aria-hidden={!isOpen}>
         {/* Header */}

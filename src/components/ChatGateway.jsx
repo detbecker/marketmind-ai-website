@@ -1,35 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import ChatWidget from '../ChatWidget';
 
-const DF_SCRIPT_ID = 'df-messenger-bootstrap';
-const DF_SCRIPT_SRC = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
 const RECAPTCHA_SCRIPT_ID = 'recaptcha-v3-script';
 
-const PROJECT_ID = import.meta.env.VITE_DF_PROJECT_ID || 'marketmind-ai-497018';
-const AGENT_ID = import.meta.env.VITE_DF_AGENT_ID || 'REPLACE_WITH_AGENT_ID';
-const LOCATION = import.meta.env.VITE_DF_LOCATION || 'global';
-const LANGUAGE_CODE = import.meta.env.VITE_DF_LANGUAGE_CODE || 'en';
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
 const VERIFY_GATEWAY_URL =
   import.meta.env.VITE_VERIFY_CHAT_GATEWAY_URL ||
   'https://us-central1-marketmind-ai-497018.cloudfunctions.net/verifyChatGateway';
-
-function loadDialogflowScript() {
-  return new Promise((resolve, reject) => {
-    const existing = document.getElementById(DF_SCRIPT_ID);
-    if (existing) {
-      resolve();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.id = DF_SCRIPT_ID;
-    script.src = DF_SCRIPT_SRC;
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Failed to load Dialogflow Messenger bootstrap script.'));
-    document.body.appendChild(script);
-  });
-}
 
 function loadRecaptchaScript(siteKey) {
   return new Promise((resolve, reject) => {
@@ -84,22 +61,6 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
       setErrorText('Unable to initialize bot verification. Please disable content-blocking for Google reCAPTCHA or refresh and try again.');
     });
   }, []);
-
-  useEffect(() => {
-    if (!isVerified) return;
-
-    let cancelled = false;
-    loadDialogflowScript().catch(() => {
-      if (!cancelled) {
-        setErrorText('Unable to initialize secure chat right now. Please refresh and try again.');
-        setIsVerified(false);
-      }
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [isVerified]);
 
   const disabled = useMemo(() => isSubmitting || email.trim().length === 0, [isSubmitting, email]);
   const bottomOffset = isCookieBannerVisible ? '132px' : '24px';
@@ -241,15 +202,11 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
           ) : null}
         </div>
       ) : (
-        <df-messenger
-          project-id={PROJECT_ID}
-          agent-id={AGENT_ID}
-          language-code={LANGUAGE_CODE}
-          location={LOCATION}
-          max-query-length="120"
-        >
-          <df-messenger-chat-bubble chat-title="MarketMind AI Assistant" />
-        </df-messenger>
+        <ChatWidget
+          initialEmail={email.trim().toLowerCase()}
+          initialOpen={true}
+          bottomOffset={bottomOffset}
+        />
       )}
     </div>
   );
