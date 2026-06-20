@@ -9,6 +9,13 @@
           "marketmind-ai-497018"
         ]
       }
+    },
+    "marketmind-ai-website": {
+      "hosting": {
+        "live": [
+          "marketmind-ai-website"
+        ]
+      }
     }
   },
   "etags": {}

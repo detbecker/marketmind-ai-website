@@ -2,6 +2,21 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.2] - 2026-06-20
+
+### Added
+- **Zero-Trust Chat Gateway**: Added a pre-chat verification flow that gates chatbot access behind corporate-email entry and reCAPTCHA v3 verification.
+- **Firebase Function Runtime**: Added a dedicated Firebase Functions codebase (`functions/`) with Node.js 22 configuration and a production `verifyChatGateway` endpoint.
+
+### Changed
+- **Dual Hosting Target Mapping**: Updated Firebase target configuration so the same deployment target can publish to both hosting sites (`marketmind-ai-497018` and `marketmind-ai-website`) as needed during migration.
+- **Gateway Error Messaging**: Updated chatbot verification failures to instruct users to allow Google reCAPTCHA in hardened privacy modes and contact `inquiries@marketmind-ai.com` if needed.
+
+### Fixed
+- **Cookie Banner Overlap**: Adjusted chatbot vertical offset while the cookie consent bar is visible so consent controls remain accessible.
+- **reCAPTCHA CSP Policy**: Expanded Hosting CSP directives to permit required Google reCAPTCHA script, frame, image, and connection origins.
+- **Chat UX Regression**: Restored handoff to the branded custom `ChatWidget` after successful gateway verification (replacing unintended stock Dialogflow UI fallback).
+
 ## [1.5.1] - 2026-06-20
 
 ### Fixed

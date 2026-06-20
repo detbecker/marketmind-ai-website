@@ -70,7 +70,7 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
     setErrorText('');
 
     if (!isCorporateEmail(email)) {
-      setErrorText('Please enter a valid corporate email address.');
+      setErrorText('Unable to verify your session. If you use a blocker or hardened privacy mode, allow Google reCAPTCHA and try again. If you are unable to do that, please reach out to: inquiries@marketmind-ai.com.');
       return;
     }
 
@@ -109,7 +109,7 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
 
       setIsVerified(true);
     } catch {
-      setErrorText('Unable to verify your session. If you use a blocker or hardened privacy mode, allow Google reCAPTCHA and try again.');
+      setErrorText('Unable to verify your session. If you use a blocker or hardened privacy mode, allow Google reCAPTCHA and try again. If you are unable to do that, please reach out to: inquiries@marketmind-ai.com.');
     } finally {
       setIsSubmitting(false);
     }
