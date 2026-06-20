@@ -68,7 +68,7 @@ function isCorporateEmail(value) {
   return !blockedDomains.has(domain);
 }
 
-export default function ChatGateway() {
+export default function ChatGateway({ isCookieBannerVisible = false }) {
   const [isVerified, setIsVerified] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -102,6 +102,7 @@ export default function ChatGateway() {
   }, [isVerified]);
 
   const disabled = useMemo(() => isSubmitting || email.trim().length === 0, [isSubmitting, email]);
+  const bottomOffset = isCookieBannerVisible ? '132px' : '24px';
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -158,9 +159,10 @@ export default function ChatGateway() {
       style={{
         position: 'fixed',
         right: '24px',
-        bottom: '24px',
+        bottom: bottomOffset,
         zIndex: 1000,
         width: 'min(420px, calc(100vw - 24px))',
+        transition: 'bottom 0.2s ease',
       }}
       aria-live="polite"
     >

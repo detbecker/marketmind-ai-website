@@ -1,5 +1,5 @@
 // src/App.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CookieConsent from "react-cookie-consent";
 import ComingSoon from './ComingSoon';
@@ -12,6 +12,12 @@ import ChatGateway from './components/ChatGateway';
 import './index.css';
 
 function App() {
+  const [isCookieBannerVisible, setIsCookieBannerVisible] = useState(false);
+
+  useEffect(() => {
+    setIsCookieBannerVisible(!document.cookie.includes('CookieConsent='));
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -27,6 +33,8 @@ function App() {
         buttonText="Accept All"
         declineButtonText="Decline Optional"
         enableDeclineButton={true}
+        onAccept={() => setIsCookieBannerVisible(false)}
+        onDecline={() => setIsCookieBannerVisible(false)}
         style={{
           background: 'rgba(8, 8, 12, 0.96)',
           backdropFilter: 'blur(8px)',
@@ -52,7 +60,7 @@ function App() {
         MarketMind AI utilizes minimal, deterministic cookies to ensure platform security and analyze site traffic. We do not sell your data to ad networks.
       </CookieConsent>
       {/* Global zero-trust chat gateway — persists across all routes */}
-      <ChatGateway />
+      <ChatGateway isCookieBannerVisible={isCookieBannerVisible} />
     </BrowserRouter>
   );
 }
