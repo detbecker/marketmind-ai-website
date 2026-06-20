@@ -7,6 +7,7 @@ import Contact from './Contact';
 import BlogIndex from './components/BlogIndex';
 import BlogPostDetail from './components/BlogPostDetail';
 import PrivacyPolicy from './Privacy';
+import ChatWidget from './ChatWidget';
 import './index.css';
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
         <Route path="/blog/:slug" element={<BlogPostDetail />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
       </Routes>
+      {/* Global chat widget — persists across all routes */}
+      <ChatWidget />
     </BrowserRouter>
   );
 }

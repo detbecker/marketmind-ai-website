@@ -222,20 +222,4 @@ body {
   gap: 1rem;
 }
 
-/* Dialogflow Messenger Dark Theme / Glassmorphism overrides */
-df-messenger {
-  --df-messenger-bot-message: rgba(30, 30, 36, 0.95);
-  --df-messenger-button-titlebar-color: #1e40af; /* Matches the dark blue */
-  --df-messenger-chat-background-color: rgba(8, 8, 12, 0.85);
-  --df-messenger-font-color: #e5e7eb;
-  --df-messenger-send-icon: #3b82f6; /* Vibrant blue send icon */
-  --df-messenger-user-message: #1e3a8a; /* Deep blue user message */
-  --df-messenger-input-box-color: rgba(20, 20, 25, 0.9);
-  --df-messenger-input-text-color: #e5e7eb;
-  --df-messenger-input-placeholder-font-color: #6b7280;
-  --df-messenger-chat-border: 2px solid #1e40af; /* Dark blue border */
-  --df-messenger-chat-border-radius: 12px;
-  --df-messenger-chat-bubble-background-color: #1e40af; /* Floating bubble background */
-  z-index: 100;
-}
 

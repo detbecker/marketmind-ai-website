@@ -1,10 +1,13 @@
 {
-  "name": "dialogflow-webhook",
-  "version": "1.0.0",
-  "description": "Dialogflow CX Webhook Cloud Function to store leads in Firestore",
+  "name": "chat-notify",
+  "version": "2.0.0",
+  "description": "MarketMind AI chat lead notification Cloud Function",
   "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "start": "functions-framework --target=dialogflowWebhook"
+    "start": "functions-framework --target=chatNotify"
   },
   "dependencies": {
     "@google-cloud/firestore": "^7.10.0",

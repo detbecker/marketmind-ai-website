@@ -1,108 +1,144 @@
 /**
- * Dialogflow CX Webhook
- * 
- * Saves qualified lead details (email) to Firestore and sends a Slack notification.
- * Designed to run on Google Cloud Functions (2nd Gen / Node.js 20+ runtime).
+ * chatNotify — MarketMind AI Chat Notification Cloud Function
+ *
+ * Receives JSON from the browser chat widget whenever a user provides
+ * their email address. Stores the conversation in Firestore and sends
+ * an email notification via SendGrid.
+ *
+ * Runtime: Node.js 20, Google Cloud Functions (2nd Gen)
+ *
+ * Required environment variables:
+ *   SENDGRID_API_KEY       — SendGrid API key
+ *   SENDGRID_SENDER_EMAIL  — Verified sender (default: no-reply@marketmind-ai.com)
+ *
+ * Firestore collection: chat_leads
  */
 
 const { Firestore } = require('@google-cloud/firestore');
+
 const firestore = new Firestore();
 
-// Optional: Provide this in Cloud Function environment variables
-const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL; 
+exports.chatNotify = async (req, res) => {
+  // CORS — allow the production domain and the Firebase preview domain
+  const allowedOrigins = [
+    'https://marketmind-ai.com',
+    'https://marketmind-ai-website.web.app',
+    'https://marketmind-ai-website.firebaseapp.com',
+  ];
+  const origin = req.headers.origin || '';
+  if (allowedOrigins.includes(origin) || origin.startsWith('http://localhost')) {
+    res.set('Access-Control-Allow-Origin', origin);
+  }
+  res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
 
-exports.dialogflowWebhook = async (req, res) => {
+  // Preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(204).send('');
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
-    const body = req.body;
-    
-    // Extract Dialogflow CX session parameters and session details
-    const sessionInfo = body.sessionInfo;
-    const parameters = sessionInfo ? sessionInfo.parameters : null;
-    const email = parameters ? parameters.email : null;
-    const sessionId = sessionInfo && sessionInfo.session ? sessionInfo.session.split('/').pop() : 'unknown';
+    const { email, sessionId, messages } = req.body || {};
 
-    // If email hasn't been captured yet, return empty fulfillment response to Dialogflow
-    if (!email) {
-      return res.status(200).json({
-        fulfillmentResponse: {
-          messages: []
-        }
-      });
+    // Basic validation
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      return res.status(400).json({ error: 'Invalid or missing email address.' });
     }
 
+    const safeSessionId = (sessionId || `session-${Date.now()}`).replace(/[^a-zA-Z0-9\-_]/g, '');
     const timestamp = new Date();
 
-    // 1. Store the qualified lead in Firestore
-    await firestore.collection('leads').doc(sessionId).set({
-      email: email,
-      createdAt: timestamp,
-      status: 'new',
-      sessionId: sessionId
-    }, { merge: true });
+    // 1. Store in Firestore
+    await firestore.collection('chat_leads').doc(safeSessionId).set(
+      {
+        email:     email.trim().toLowerCase(),
+        sessionId: safeSessionId,
+        messages:  Array.isArray(messages) ? messages : [],
+        createdAt: timestamp,
+        status:    'new',
+      },
+      { merge: true }
+    );
 
-    console.log(`Successfully stored lead in Firestore for session ${sessionId} (${email})`);
+    console.log(`[chatNotify] Stored lead: ${email} (session: ${safeSessionId})`);
 
-    // 2. Trigger Email Notification (SendGrid)
+    // 2. Send email notification via SendGrid
     if (process.env.SENDGRID_API_KEY) {
       try {
         const sgMail = require('@sendgrid/mail');
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+        // Format message history for email body
+        const transcriptHtml = Array.isArray(messages)
+          ? messages
+              .map(
+                (m) =>
+                  `<tr style="vertical-align:top;">
+                    <td style="padding:6px 12px;font-weight:600;color:${m.role === 'user' ? '#1d4ed8' : '#374151'};white-space:nowrap;min-width:80px;">${m.role === 'user' ? 'Visitor' : 'Assistant'}</td>
+                    <td style="padding:6px 12px;color:#374151;">${m.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>
+                  </tr>`
+              )
+              .join('')
+          : '<tr><td colspan="2" style="color:#9ca3af;">No transcript available.</td></tr>';
+
         await sgMail.send({
-          to: 'sbecker@ssr-research.ai',
-          from: process.env.SENDGRID_SENDER_EMAIL || 'no-reply@marketmind-ai.com',
-          subject: 'MarketMind AI - New Chatbot Lead Captured',
-          text: `A new user chatbot conversation occurred.\n\nLead Email: ${email}\nSession ID: ${sessionId}\nTimestamp: ${timestamp.toISOString()}`,
-          html: `<p>A new user chatbot conversation occurred.</p><p><strong>Lead Email:</strong> ${email}</p><p><strong>Session ID:</strong> <code>${sessionId}</code></p><p><strong>Timestamp:</strong> ${timestamp.toISOString()}</p>`
+          to:   'sbecker@ssr-research.ai',
+          from:  process.env.SENDGRID_SENDER_EMAIL || 'no-reply@marketmind-ai.com',
+          subject: `🎯 MarketMind AI — New Chat Lead: ${email}`,
+          html: `
+<!DOCTYPE html>
+<html>
+<body style="font-family:Arial,sans-serif;background:#f9fafb;padding:24px;">
+  <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
+    <div style="background:linear-gradient(135deg,#1e40af,#1d4ed8);padding:24px 28px;">
+      <h1 style="color:#fff;margin:0;font-size:18px;font-weight:600;">New Chat Lead Captured</h1>
+      <p style="color:#bfdbfe;margin:4px 0 0;font-size:13px;">MarketMind AI Website Chatbot</p>
+    </div>
+    <div style="padding:24px 28px;">
+      <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+        <tr>
+          <td style="padding:8px 0;color:#6b7280;font-size:13px;width:120px;">Email</td>
+          <td style="padding:8px 0;font-weight:600;color:#111827;">${email}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 0;color:#6b7280;font-size:13px;">Session ID</td>
+          <td style="padding:8px 0;font-family:monospace;font-size:12px;color:#374151;">${safeSessionId}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 0;color:#6b7280;font-size:13px;">Timestamp</td>
+          <td style="padding:8px 0;color:#374151;">${timestamp.toISOString()}</td>
+        </tr>
+      </table>
+      <h2 style="font-size:14px;font-weight:600;color:#111827;margin-bottom:12px;border-top:1px solid #e5e7eb;padding-top:16px;">Chat Transcript</h2>
+      <table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:8px;overflow:hidden;">
+        ${transcriptHtml}
+      </table>
+    </div>
+    <div style="padding:16px 28px;background:#f3f4f6;border-top:1px solid #e5e7eb;">
+      <p style="margin:0;font-size:12px;color:#9ca3af;">View full session in <a href="https://console.firebase.google.com/project/marketmind-ai-website/firestore" style="color:#1d4ed8;">Firestore</a> → chat_leads → ${safeSessionId}</p>
+    </div>
+  </div>
+</body>
+</html>`,
         });
-        console.log(`Email notification sent to sbecker@ssr-research.ai`);
-      } catch (emailError) {
-        console.error('Failed to send email notification:', emailError);
+
+        console.log(`[chatNotify] Email sent to sbecker@ssr-research.ai`);
+      } catch (emailErr) {
+        console.error('[chatNotify] Email send failed:', emailErr.message);
+        // Don't fail the whole request — lead is already saved in Firestore
       }
+    } else {
+      console.warn('[chatNotify] SENDGRID_API_KEY not set — skipping email notification.');
     }
 
-    // 3. Trigger Slack notification if webhook URL is configured
-    if (SLACK_WEBHOOK_URL) {
-      try {
-        await fetch(SLACK_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            text: `🚨 *New Lead Captured from Chatbot!* \n*Email:* ${email}\n*Session ID:* \`${sessionId}\`\n*Time:* ${timestamp.toISOString()}`
-          })
-        });
-        console.log(`Slack notification sent successfully.`);
-      } catch (slackError) {
-        console.error('Failed to send Slack notification:', slackError);
-      }
-    }
+    return res.status(200).json({ success: true, message: 'Lead recorded.' });
 
-    // 3. Send final success message back to Dialogflow
-    return res.status(200).json({
-      fulfillmentResponse: {
-        messages: [
-          {
-            text: {
-              text: ["Thank you! One of our engineers will contact you at that address shortly."]
-            }
-          }
-        ]
-      }
-    });
-
-  } catch (error) {
-    console.error('Webhook processing failed:', error);
-    
-    // Graceful fallback response so the user's chatbot session doesn't freeze/crash
-    return res.status(200).json({
-      fulfillmentResponse: {
-        messages: [
-          {
-            text: {
-              text: ["Got it. We've recorded your email and will be in touch."]
-            }
-          }
-        ]
-      }
-    });
+  } catch (err) {
+    console.error('[chatNotify] Unhandled error:', err);
+    return res.status(500).json({ error: 'Internal server error.' });
   }
 };

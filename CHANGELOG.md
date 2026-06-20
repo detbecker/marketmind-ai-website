@@ -2,6 +2,35 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.0] - 2026-06-20
+
+### Added
+- **Custom Gemini AI Chat Widget**: Replaced non-functional Dialogflow CX placeholder with a fully working, custom-built React chat widget powered by the Gemini 2.0 Flash API.
+  - Dark blue glassmorphism design matching site theme (`#1e40af` accent, `rgba(6,10,22,0.92)` panel background)
+  - Smooth open/close animation, typing indicator with bouncing dots, unread message badge on FAB
+  - Full multi-turn conversation history passed to Gemini on each request
+  - System prompt implements "Lead Forensic Data Architect" persona with MarketMind AI product knowledge
+  - Email capture: automatically detects email addresses in conversation, validates format, fires Cloud Function notification
+  - Fully accessible: `aria-label`, `role="log"`, `aria-live="polite"`, keyboard navigation, focus management
+  - Mobile-responsive: panel collapses to near-full-width on screens ≤480px
+- **`chatNotify` Cloud Function (v2.0)**: Rewrote `gcp_functions/dialogflow_webhook/index.js` as a generic JSON webhook
+  - Accepts `{ email, sessionId, messages }` from browser chat widget
+  - Stores complete conversation transcript to Firestore `chat_leads` collection
+  - Sends richly formatted HTML email notification to `sbecker@ssr-research.ai` via SendGrid
+  - CORS headers for `marketmind-ai.com`, Firebase preview domains, and `localhost`
+- **Restricted Gemini API Key**: Created browser-restricted API key (`ssr-research-dev` project, key ID `978e1fd7`)
+  - Locked to `generativelanguage.googleapis.com` only
+  - Browser referrer restriction: `marketmind-ai.com`, `marketmind-ai-website.web.app`, `localhost`
+
+### Changed
+- **`index.html`**: Removed broken Dialogflow `<df-messenger>` widget and `bootstrap.js` script tag
+- **`src/App.jsx`**: Added global `<ChatWidget />` import rendered outside `<Routes>` so it persists on all pages
+- **`firebase.json` CSP**: Added `https://generativelanguage.googleapis.com` to `connect-src` directive
+- **`src/index.css`**: Removed dead `df-messenger` CSS custom property overrides
+
+### Removed
+- Dialogflow CX `df-messenger` widget and its associated `bootstrap.js` CDN script (was non-functional — no agent ID configured)
+
 ## [1.4.0] - 2026-06-20
 
 ### Added
