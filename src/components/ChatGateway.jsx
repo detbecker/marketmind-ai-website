@@ -2,11 +2,16 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 const DF_SCRIPT_ID = 'df-messenger-bootstrap';
 const DF_SCRIPT_SRC = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
+const RECAPTCHA_SCRIPT_ID = 'recaptcha-v3-script';
 
 const PROJECT_ID = import.meta.env.VITE_DF_PROJECT_ID || 'marketmind-ai-497018';
 const AGENT_ID = import.meta.env.VITE_DF_AGENT_ID || 'REPLACE_WITH_AGENT_ID';
 const LOCATION = import.meta.env.VITE_DF_LOCATION || 'global';
 const LANGUAGE_CODE = import.meta.env.VITE_DF_LANGUAGE_CODE || 'en';
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+const VERIFY_GATEWAY_URL =
+  import.meta.env.VITE_VERIFY_CHAT_GATEWAY_URL ||
+  'https://us-central1-marketmind-ai-497018.cloudfunctions.net/verifyChatGateway';
 
 function loadDialogflowScript() {
   return new Promise((resolve, reject) => {
@@ -26,9 +31,32 @@ function loadDialogflowScript() {
   });
 }
 
-async function mockRecaptchaValidation() {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return true;
+function loadRecaptchaScript(siteKey) {
+  return new Promise((resolve, reject) => {
+    const existing = document.getElementById(RECAPTCHA_SCRIPT_ID);
+    if (existing) {
+      resolve();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.id = RECAPTCHA_SCRIPT_ID;
+    script.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Failed to load reCAPTCHA script.'));
+    document.body.appendChild(script);
+  });
+}
+
+async function executeRecaptcha(siteKey) {
+  if (!window.grecaptcha || typeof window.grecaptcha.ready !== 'function') {
+    throw new Error('reCAPTCHA is not available.');
+  }
+
+  await new Promise((resolve) => window.grecaptcha.ready(resolve));
+  return window.grecaptcha.execute(siteKey, { action: 'submit_email' });
 }
 
 function isCorporateEmail(value) {
@@ -45,6 +73,17 @@ export default function ChatGateway() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorText, setErrorText] = useState('');
+
+  useEffect(() => {
+    if (!RECAPTCHA_SITE_KEY) {
+      setErrorText('Secure verification is unavailable. Missing reCAPTCHA site key.');
+      return;
+    }
+
+    loadRecaptchaScript(RECAPTCHA_SITE_KEY).catch(() => {
+      setErrorText('Unable to initialize bot verification. Please refresh and try again.');
+    });
+  }, []);
 
   useEffect(() => {
     if (!isVerified) return;
@@ -75,15 +114,40 @@ export default function ChatGateway() {
 
     setIsSubmitting(true);
     try {
-      const validated = await mockRecaptchaValidation();
-      if (!validated) {
-        setErrorText('Validation failed. Please try again.');
+      if (!RECAPTCHA_SITE_KEY) {
+        setErrorText('Secure verification is unavailable. Missing reCAPTCHA site key.');
+        return;
+      }
+
+      const recaptchaToken = await executeRecaptcha(RECAPTCHA_SITE_KEY);
+      const response = await fetch(VERIFY_GATEWAY_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          recaptchaToken,
+        }),
+      });
+
+      if (!response.ok) {
+        if (response.status === 403) {
+          setErrorText('Verification failed. Please try again later.');
+          return;
+        }
+        throw new Error(`Verification endpoint failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data?.verified !== true) {
+        setErrorText('Verification failed. Please try again.');
         return;
       }
 
       setIsVerified(true);
     } catch {
-      setErrorText('Validation failed. Please try again.');
+      setErrorText('Unable to verify your session. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
