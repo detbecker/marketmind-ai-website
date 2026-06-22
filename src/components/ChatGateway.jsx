@@ -6,7 +6,7 @@ const RECAPTCHA_SCRIPT_ID = 'recaptcha-v3-script';
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
 const VERIFY_GATEWAY_URL =
   import.meta.env.VITE_VERIFY_CHAT_GATEWAY_URL ||
-  'https://us-central1-marketmind-ai-497018.cloudfunctions.net/verifyChatGateway';
+  'https://us-central1-marketmind-ai-website.cloudfunctions.net/verifyChatGateway';
 
 function loadRecaptchaScript(siteKey) {
   return new Promise((resolve, reject) => {
