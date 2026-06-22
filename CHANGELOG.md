@@ -2,6 +2,12 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.5] - 2026-06-22
+
+### Fixed
+- **CSP: Google Analytics Apex Domain**: Added `https://analytics.google.com` to `connect-src` alongside `https://*.analytics.google.com` to resolve blocked GA requests hitting the apex host.
+- **CSP: Connect Source Alignment**: Updated `connect-src` host ordering and function endpoints to match production tracking requirements across both Firebase Hosting projects.
+
 ## [1.5.4] - 2026-06-22
 
 ### Fixed
