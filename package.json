@@ -16,7 +16,12 @@
     "stress:test:proxy": "node scripts/stress-chat-endpoint.mjs --mode proxy"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^8.6.0",
+    "@langchain/community": "^0.3.59",
+    "@langchain/core": "^0.3.80",
+    "@langchain/google-genai": "^0.2.18",
     "framer-motion": "^12.38.0",
+    "langchain": "^0.3.37",
     "lucide-react": "^1.8.0",
     "react": "^19.2.4",
     "react-cookie-consent": "^10.0.1",

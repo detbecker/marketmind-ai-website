@@ -27,8 +27,8 @@ const RATE_LIMIT_MAX_REQUESTS = 30;
 const rateLimitMap = new Map();
 const ALLOWED_ORIGINS = [
   'https://marketmind-ai.com',
-  'https://marketmind-ai-497018.web.app',
-  'https://marketmind-ai-497018.firebaseapp.com',
+  'https://marketmind-ai-website.web.app',
+  'https://marketmind-ai-website.firebaseapp.com',
 ];
 const SYSTEM_INSTRUCTION = `You are the Lead Forensic Data Architect for MarketMind AI. You are speaking with executives and enterprise technical buyers.
 
@@ -229,7 +229,7 @@ exports.chatNotify = async (req, res) => {
       </table>
     </div>
     <div style="padding:16px 28px;background:#f3f4f6;border-top:1px solid #e5e7eb;">
-      <p style="margin:0;font-size:12px;color:#9ca3af;">View full session in <a href="https://console.firebase.google.com/project/marketmind-ai-497018/firestore" style="color:#1d4ed8;">Firestore</a> → chat_leads → ${safeSessionId}</p>
+      <p style="margin:0;font-size:12px;color:#9ca3af;">View full session in <a href="https://console.firebase.google.com/project/marketmind-ai-website/firestore" style="color:#1d4ed8;">Firestore</a> → chat_leads → ${safeSessionId}</p>
     </div>
   </div>
 </body>

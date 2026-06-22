@@ -1,0 +1,125 @@
+
+Search in video
+0:00
+[MUSIC PLAYING]
+0:03
+0:14
+JEFF: One of the hardest questions in marketing
+0:16
+isn't just, did it work?
+0:18
+It's actually, where should I spend my next dollar?
+0:21
+Hi, I'm Jeff.
+0:23
+Today, we're breaking down the key metrics
+0:24
+to understanding the impact of your ad spend--
+0:27
+incremental outcome, ROI, response curves, and MROI.
+0:32
+Whether you're a marketer or a data scientist,
+0:35
+everything starts here.
+0:37
+Let's say you ran an online shoe store.
+0:41
+You spend $10k on a video channel.
+0:44
+Your total sales was $150k.
+0:47
+But Meridian estimates that, without that ad channel,
+0:50
+you would have sold $125k anyways.
+0:53
+The difference between these, that's your incremental outcome.
+0:58
+That's the pure causal effect on sales generated
+1:01
+by that specific video channel.
+1:04
+Now, to grade your past performance, we calculate ROI.
+1:09
+It's simply the incremental outcome divided by the cost.
+1:14
+Here, that's 2.5.
+1:18
+In essence, for every dollar you put in,
+1:20
+you get $250 back-- pretty great deal.
+1:24
+ROI is great for looking backwards,
+1:27
+but that's just a historical grade.
+1:29
+It doesn't tell you what to do next.
+1:32
+To plan for the future, we need the response curve.
+1:36
+In Meridian, we estimate the relationship
+1:39
+between spend and outcome.
+1:42
+It rarely looks like a straight line.
+1:44
+Usually, it looks more like this.
+1:48
+At first, returns are high, but as you saturate the audience,
+1:54
+the curve flattens.
+1:57
+This is the point of diminishing returns.
+2:00
+This is where the concept of MROI, or marginal ROI, comes in.
+2:05
+While ROI is the average of your spend,
+2:09
+MROI is the return on the very next dollar.
+2:14
+If your MROI is significantly lower than your ROI,
+2:18
+the channel's saturating.
+2:20
+It might be time to move the budget elsewhere.
+2:22
+2:26
+Meridian estimates a response curve
+2:28
+by calculating the incremental business outcome
+2:30
+that a specific media channel would
+2:32
+generate at various hypothetical spending levels.
+2:35
+Meridian creates these scenarios by taking the channel's
+2:39
+historical spending patterns across times and geographies
+2:44
+and scaling them up or down by a set factor,
+2:49
+while keeping all other marketing activities constant.
+2:53
+This process reveals the relationship
+2:55
+between spend and impact, allowing
+2:58
+you to visualize how returns diminish
+3:00
+as investment increases.
+3:01
+3:05
+So in summary, here are your three key rules of thumb.
+3:10
+Use ROI to grade the past.
+3:12
+Use response curves to visualize saturation and diminishing
+3:15
+returns.
+3:16
+And use MROI to understand your current saturation level.
+3:20
+Check out the Meridian documentation
+3:22
+for the code for how to generate these plots.
+3:25
+Thanks for watching.

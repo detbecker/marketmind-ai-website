@@ -1,0 +1,183 @@
+The Adstock and Hill functions are two transformations used
+0:18
+in Meridian.
+0:20
+Before we look at the code or the math in Meridian,
+0:22
+we need to agree on how marketing actually
+0:24
+works in the real world.
+0:26
+It is rarely instantaneous, and it is rarely linear.
+0:30
+Imagine you see an ad for noise-canceling headphones.
+0:33
+You probably won't buy them this afternoon.
+0:35
+You might watch a few tech reviews, wait for a paycheck,
+0:38
+and then place the order.
+0:40
+This illustrates the concept of lagged effects.
+0:42
+Meridian captures this using the Adstock function.
+0:48
+Now, imagine an advertiser decides to double
+0:50
+their advertising budget.
+0:52
+Will they get double the sales?
+0:54
+Likely not.
+0:56
+This is saturation, which Meridian captures
+0:58
+using the Hill function.
+0:59
+1:03
+Now, let's break these down mathematically,
+1:05
+starting with the Adstock function.
+1:06
+1:13
+Adstock is a function of media execution at time t,
+1:18
+1 time period back, all the way to L time periods back.
+1:25
+This is reflected in the summation, which
+1:27
+starts at time t minus 0 and goes
+1:29
+all the way to time t minus L.
+1:35
+Let's talk about this L term, which determines
+1:38
+how far to look back.
+1:41
+This L term is called max lag in Meridian and is set by the user.
+1:46
+While media effects could theoretically last much longer,
+1:49
+we truncate them at L. It's not always
+1:52
+advised to set L to a very large value, say a hundred weeks.
+1:57
+If you look back too far, you increase the noise
+2:00
+without adding much signal.
+2:01
+2:06
+The Adstock function represents a weighted average
+2:10
+with weights for each time period.
+2:12
+2:18
+For example, here's a geometric decay curve.
+2:21
+2:25
+The weights for each value of s is
+2:27
+determined by this curve, whose shape is controlled
+2:30
+by the parameter alpha.
+2:32
+2:35
+Think of alpha as the retention rate.
+2:37
+A high alpha means the weight stays high for longer.
+2:41
+A low alpha means the memory drops off fast.
+2:44
+For example, here's a geometric decay curve with a smaller alpha
+2:48
+than the previous one.
+2:49
+2:54
+In this new geometric decay curve,
+2:56
+the weights are very small sooner.
+3:00
+Use geometric for when the media drives action quickly.
+3:03
+3:09
+Meridian also offers a binomial decay curve.
+3:12
+3:16
+Binomial decay is mathematically stretched
+3:18
+to fit the window you define.
+3:21
+Specifically, the curve is defined so that its x-intercept
+3:25
+is always at L plus 1.
+3:29
+Use binomial decay when you believe a significant proportion
+3:32
+of the media effect persists into the latter half
+3:35
+of the time window.
+3:36
+3:46
+The Hill function reflects the reality
+3:48
+that doubling your budget rarely doubles your revenue.
+3:51
+It's controlled by two parameters, ec and slope.
+3:57
+Here's an example of a Hill function.
+3:59
+4:03
+ec is the half saturation point.
+4:06
+It tells you exactly how much spend
+4:08
+is required to get 50% of your maximum impact.
+4:11
+4:19
+For example, for this curve, ec is here.
+4:24
+Meridian learns ec from your data
+4:26
+to identify where your channel starts losing efficiency.
+4:31
+Then we have the slope.
+4:33
+This controls how steep the curve is.
+4:36
+By default, Meridian fixes the slope to 1
+4:38
+to ensure a concave curve, which guarantees that the budget
+4:42
+optimizer can reliably identify a global optimum for your budget
+4:46
+allocation.
+4:49
+Let's discuss this top equation.
+4:53
+It illustrates that the Hill-Adstock function is a term
+4:56
+in Meridian's regression model.
+5:00
+Notice the order of operations.
+5:02
+We apply Adstock first and then Hill.
+5:07
+This assumes saturation is driven
+5:09
+by the lagged history of media, not just a single week's media.
+5:14
+This order can optionally be flipped in Meridian.
+5:18
+You don't need to calculate the Adstock or Hill
+5:20
+transformations manually.
+5:22
+You feed Meridian the raw execution data,
+5:25
+your choice of decay curve, and max lag.
+5:31
+The model estimates the remaining parameters for you
+5:34
+and applies the transformations to Meridian's regression model.
+5:37
+Check out the documentation to learn more.

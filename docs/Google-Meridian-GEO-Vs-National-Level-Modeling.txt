@@ -1,0 +1,184 @@
+0:11
+ALEX: Hi, I'm Alex.
+0:12
+When you're setting up your marketing mix model in Meridian,
+0:16
+one of the first data decisions you have to make is granularity.
+0:19
+Should you model at the national level
+0:21
+or break it down to the geo-level?
+0:23
+In Meridian, we strongly recommend
+0:25
+using geo-level data whenever possible.
+0:28
+It allows you to use hierarchical models
+0:30
+that utilize a concept called partial pooling.
+0:33
+To understand why this matters, imagine
+0:36
+you need to estimate the ROI for four different cities.
+0:39
+If you run a separate MMM for each city using only that city's
+0:43
+data, you are doing no pooling.
+0:46
+The problem is, you might not have enough spend data
+0:49
+in a single city, say, San Diego,
+0:52
+to get a reliable estimate.
+0:54
+Your credible intervals become very wide,
+0:57
+meaning we aren't very confident in the result.
+1:00
+You might think, well, these cities are somewhat similar.
+1:03
+Let's just combine all the data into one big pool.
+1:06
+This is complete pooling.
+1:08
+While your interval is narrower because you have more data,
+1:11
+you have introduced bias.
+1:14
+You're assuming every city behaves exactly
+1:16
+like the national average, which we know isn't the case.
+1:20
+This brings us to Meridian's approach called partial pooling.
+1:23
+It is the compromise between these two extremes.
+1:26
+In a hierarchical model, we assume
+1:28
+that, while every geo is unique, they share a common average.
+1:32
+We use the common average to inform the individual estimates.
+1:36
+Think of it as regularizing toward a common mean.
+1:39
+If a specific geo, like San Diego,
+1:42
+has especially noisy data or wide intervals,
+1:45
+the model borrows more strength from the other geos
+1:48
+and pulls the San Diego estimate closer to the national average.
+1:53
+Mathematically, we say the ROIs come from a shared distribution.
+1:58
+Think of this shared mean, the red line,
+2:00
+as a magnet with a gravitational pull.
+2:03
+The strength is stronger and more confident
+2:06
+as you add geos with strong signal that behave similarly
+2:09
+to one another.
+2:11
+For a noisy geo like San Diego, the magnet
+2:13
+is stronger than the local data, so it pulls the estimate
+2:17
+toward the group mean.
+2:18
+But for New York, it has a tight interval and strong signal,
+2:22
+so the magnet doesn't pull as much.
+2:25
+The data itself decides the balance,
+2:27
+finding the sweet spot for every geo
+2:29
+without you having to manually weigh it.
+2:33
+So practically, what does moving to this geo-level hierarchical
+2:36
+model actually do for your Meridian results?
+2:39
+First, it increases your effective sample size.
+2:42
+More data points mean tighter, credible intervals.
+2:45
+Second, it captures variability in spend.
+2:49
+At a national level, spend might be consistent week over week,
+2:53
+but across geos, per capita spend can fluctuate.
+2:58
+This variance is critical for estimating nonlinear effects,
+3:01
+like saturation and the Hill function parameters.
+3:05
+Third, it improves our estimates for time effects,
+3:08
+like trend and seasonality.
+3:10
+Because we have multiple observations per time period
+3:13
+and observation for each geo, we have data-to-model time effects
+3:17
+for each time period.
+3:19
+Finally, it helps reduce bias from hidden confounders.
+3:23
+By modeling at the geo-level, we can often
+3:26
+reduce the correlation between media
+3:27
+spend and omitted confounding variables.
+3:31
+Now, we realized you might not always have geo-level data.
+3:35
+If your data is aggregated to one geo,
+3:37
+we call this a national-level model.
+3:41
+To be clear, this doesn't have to be a nation.
+3:43
+It's just shorthand for a single geomodel,
+3:46
+whether that is a whole country, a specific state, or just one
+3:49
+region.
+3:51
+However, the benefits of geomodeling
+3:53
+are so strong that we recommend a specific workflow
+3:56
+if your data is mixed.
+3:58
+Let's say you have sales data by geo,
+4:00
+but TV spend is only available nationally.
+4:03
+Instead of aggregating your sales up to the national level,
+4:07
+we advocate for imputing the national channel down
+4:10
+to the geo-level, for example, proportionally based
+4:13
+on each geo's population.
+4:15
+This allows you to keep the rich granularity
+4:17
+of your geo-level channels rather than
+4:19
+flattening everything to the lowest common granularity.
+4:23
+By using Meridian's geo-level Bayesian hierarchical modeling,
+4:26
+you're getting an estimate that balances local nuance
+4:29
+with global statistical power.
+4:31
+Check out the documentation linked below for more details
+4:34
+and implementation guides.
+4:36
+Thanks for watching.

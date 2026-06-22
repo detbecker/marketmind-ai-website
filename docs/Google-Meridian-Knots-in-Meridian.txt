@@ -1,0 +1,166 @@
+0:16
+In marketing mix modeling, we often
+0:18
+see sales fluctuate naturally over time, even when
+0:21
+your media spend stays flat.
+0:23
+Maybe baseline sales dip in the summer or spike in December.
+0:28
+We call these time effects.
+0:32
+In Meridian, we handle this mathematically.
+0:35
+Let's say t is the total number of time periods in your data,
+0:38
+say, 104 weeks for a two-year model.
+0:41
+0:47
+Ideally, we want to estimate a time effect
+0:49
+mu for every single one of those time periods.
+0:54
+However, estimating a unique parameter for every single week
+0:58
+results in a large number of parameters
+1:00
+and can be an inefficient use of the model's degrees of freedom.
+1:03
+Meridian solves this using knots.
+1:07
+1:14
+Instead of estimating t parameters,
+1:16
+we choose a number of knots, k, where
+1:18
+k is less than or equal to t.
+1:20
+1:26
+This is a form of dimensionality reduction.
+1:29
+We estimate the values at the knots and interpolate
+1:32
+everything in between.
+1:36
+Let's look at the math of how we fill in the gaps.
+1:38
+1:43
+Imagine we have a knot at week 60 and week 80.
+1:46
+We need to estimate the time effect for week 75.
+1:51
+Since there's no knot there, the model
+1:53
+looks at the neighboring knots and calculates
+1:55
+a weighted average based on distance.
+1:58
+The distance to the left knot is 15.
+2:00
+2:07
+The distance to the right knot is 5.
+2:09
+2:16
+The knot at week 80 is 3 times closer than the knot at week 60.
+2:20
+And so it gets 3 times the weight in the weighted average.
+2:24
+The time effect mu 75 is then a weighted average
+2:27
+of the neighboring knots at 60 and 80.
+2:30
+2:38
+If we repeated this exercise for each mu t between the two knots,
+2:42
+each mu t would fall on a straight line between the two
+2:45
+knots, demonstrating linear interpolation.
+2:48
+2:58
+When k equals 1, all time periods
+3:01
+are measured with a single parameter.
+3:03
+It acts as a common intercept for the entire duration
+3:06
+of the model.
+3:07
+3:11
+When k equals t, the knot-based approach
+3:14
+simplifies to using a dummy variable for each time period,
+3:18
+also known as one-hot encoding.
+3:20
+3:27
+Now, the strategy for setting knots
+3:29
+depends heavily on your data granularity.
+3:32
+In a national model, you have limited data--
+3:35
+only one observation per time period.
+3:38
+Setting the number of knots close to t
+3:40
+leads to many parameters with a limited amount of data.
+3:44
+A low number of knots is often an efficient way
+3:46
+to improve the sample size-to-parameter ratio.
+3:50
+The default number of knots in a national model is 1.
+3:52
+Geomodels are different.
+3:54
+Because you have many geos, each with data every week,
+3:58
+you have a much higher sample size-to-parameter ratio.
+4:01
+You can afford more knots, sometimes even
+4:04
+a knot for every time period, which
+4:06
+is the default in geomodels.
+4:08
+The knot-based approach is a powerful tool.
+4:11
+It can capture arbitrarily complex trends and seasonality
+4:14
+patterns, and even multiple seasonality patterns at once.
+4:19
+It can capture these complex shapes
+4:21
+with relatively few parameters.
+4:23
+Let's look at these charts which fit knots to simulated data.
+4:26
+4:30
+They show how a complex time series of 152 time points
+4:34
+can be accurately explained by just 15 knots.
+4:38
+Notice how the smoothed estimate in orange
+4:40
+effectively captures the seasonality of the observed data
+4:43
+in green.
+4:44
+It does this without modeling a parameter for every single week.
+4:47
+In practice, selecting the number of knots
+4:50
+often requires trial and error.
+4:52
+Wouldn't it be better if the data could just tell us
+4:55
+how many knots it needs?
+4:57
+This is why Meridian offers AKS, or Automatic Knot Selection.
+5:01
+5:06
+AKS removes the guesswork, giving you
+5:08
+a statistically rigorous starting point.
+5:11
+Thank you for watching.

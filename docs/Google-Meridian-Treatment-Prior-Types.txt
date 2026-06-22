@@ -1,0 +1,157 @@
+0:13
+JEFF: Before we configure priors,
+0:16
+we need to categorize our inputs.
+0:18
+In Meridian, treatments typically
+0:21
+fall in two key buckets.
+0:23
+First is paid media.
+0:27
+These are marketing channels like TV, video, or display where
+0:31
+you have direct spend data.
+0:33
+The model usually links the outcome directly to that spend.
+0:37
+Second, organic media and non-media treatments.
+0:42
+These include organic marketing efforts or business decisions,
+0:46
+like price changes, that can affect sales volume.
+0:50
+But the key difference is these variables
+0:52
+don't have an associated spend component.
+0:55
+You have business metrics like ROI,
+0:58
+but regression models often speak in coefficients.
+1:01
+To help translate that business knowledge into the language
+1:03
+that the model understands, Meridian's research team
+1:06
+has developed three specific prior types
+1:08
+while also offering coefficient priors.
+1:12
+First is ROI.
+1:15
+This is the default for paid media, defined
+1:18
+as the ratio of incremental outcome driven by a channel
+1:22
+to the cost of that channel.
+1:24
+One typically uses ROI priors to calibrate with lift studies.
+1:28
+Next is MROI, or Marginal ROI.
+1:34
+This looks at the return of one additional monetary unit.
+1:38
+So this is ROI.
+1:40
+This would be MROI.
+1:43
+It targets a slope at the margin.
+1:45
+This is essential for budget optimization.
+1:48
+Last is contribution.
+1:51
+This is the proportion of the total outcome
+1:54
+attributable to a channel.
+1:55
+1:59
+This is your go-to for organic and non-media
+2:01
+when spend data is missing.
+2:03
+So how do you choose?
+2:05
+2:12
+If it's organic or non-media treatment,
+2:15
+you use the contribution prior type.
+2:17
+Since you lack spend, this is the most intuitive quantity
+2:20
+for sending an informed prior.
+2:22
+2:29
+However, for paid media, you often
+2:32
+have more options to choose from.
+2:34
+Let's use a simple decision tree to illustrate
+2:36
+this logic for paid media.
+2:38
+For paid media, first, ask if you
+2:40
+want conservative budget optimization in line
+2:43
+with historical allocation.
+2:46
+If you're in a scenario like this, MROI will work best.
+2:51
+If not, ask which metric best aligns
+2:53
+with your domain knowledge.
+2:55
+2:58
+To start, experiment results are often expressed in terms of ROI.
+3:03
+In cases like these, choose ROI.
+3:07
+On the other hand, if you have a better understanding
+3:09
+of your business metrics in terms of percentages,
+3:14
+use contribution.
+3:16
+Most users often default to ROI priors.
+3:20
+If ROI is what you care about, the next question to ask
+3:23
+is, is the outcome revenue?
+3:27
+If yes, use the ROI prior type.
+3:31
+It typically aligns best with business knowledge.
+3:34
+If no, say you have a metric like app installs,
+3:38
+you don't have knowledge of your incremental KPI per channel,
+3:41
+you'll want to use total paid media contribution prior.
+3:44
+3:47
+However, if the answer to that question is yes,
+3:50
+you'll still use the ROI prior.
+3:52
+The math handles the unit conversion.
+3:56
+A final note to consider when making your selection--
+3:58
+prior parity on one metric can create a lack of parity
+4:01
+on another.
+4:03
+For this reason, it's important to align your prior type
+4:06
+with what your business primarily cares about.
+4:08
+If you care most about ROI, set ROI priors.
+4:12
+If MROI is what you care about, select that.
+4:15
+Choosing the type that matches your goal
+4:17
+will help ensure consistency.
+4:18
+Thank you.

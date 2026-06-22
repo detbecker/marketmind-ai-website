@@ -1,0 +1,126 @@
+0:10
+JEFF: Hi, I'm Jeff from Google's Developer Relations team.
+0:14
+You have results from a lift test or a geo experiment.
+0:17
+You also have a Meridian model.
+0:20
+The challenge is, how do you pass the knowledge
+0:22
+from the experiment into the model
+0:24
+and help your suite of measurement tools
+0:25
+work better together?
+0:27
+If you don't use your experiment data
+0:28
+and instead use Meridian's default prior,
+0:31
+you are using a moderately informative prior.
+0:34
+This starting point allows the model
+0:36
+to find patterns in the data, but it
+0:38
+makes limited use of the full capabilities available to you.
+0:41
+By calibrating the priors in Meridian,
+0:43
+you can leverage your business domain knowledge
+0:45
+to better guide the model.
+0:47
+So let's calibrate.
+0:50
+Suppose your lift test gave you a specific ROI, say, 1.5,
+0:55
+with a standard error of 0.2.
+0:59
+The standard error from your test results informs that width.
+1:03
+You map the experiments mean to the prior center
+1:06
+and the standard error to the priors deviation.
+1:10
+However, there is a catch.
+1:12
+An experiment is a snapshot in time,
+1:14
+maybe, say, two weeks in November.
+1:17
+But your MMM might cover years of history.
+1:21
+Because the experiment conditions don't perfectly
+1:23
+match the model's history, we usually
+1:25
+need to add a layer of uncertainty.
+1:28
+To do this, we take that tight confidence
+1:30
+interval from the experiment and widen it slightly.
+1:34
+This tells Meridian that ROI is likely 1.5,
+1:38
+but I'm giving you more freedom to move if the historical data
+1:42
+disagrees.
+1:42
+Meridian defaults to a log normal distribution for ROI
+1:47
+priors to prevent negative values.
+1:50
+You also have the power to utilize
+1:52
+alternative distributions, given your comfort level.
+1:57
+Typically, your experiments point
+1:58
+estimate serves as the anchor point for this distribution.
+2:02
+However, you also have to compare apples to apples.
+2:06
+For example, if your experiment only measured online sales,
+2:09
+but your MMM tracks total sales for both online
+2:12
+and offline sales, your experiment result
+2:15
+is likely an underestimation.
+2:17
+In that case, don't just copy-paste a number.
+2:20
+You should shift your prior mean upwards
+2:22
+to account for that unmeasured value
+2:24
+while keeping the standard deviation wide enough
+2:27
+to handle the uncertainty.
+2:29
+Your std, or standard deviation, is just
+2:31
+the widened standard error we just discussed.
+2:35
+This is your leverage point.
+2:37
+If you trust the experiment perfectly,
+2:39
+keep the standard deviation low.
+2:41
+If the experiment is old or misaligned to your MMM,
+2:44
+dial up the standard deviation.
+2:47
+One final tip-- always plot the prior distribution
+2:50
+before running Meridian.
+2:51
+Ensure the distribution covers the range
+2:53
+of values that makes the most business sense.
+2:56
+Check out the documentation in the links below.
+2:58
+Thanks for watching.

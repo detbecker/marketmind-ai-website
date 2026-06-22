@@ -2,6 +2,15 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.7] - 2026-06-22
+
+### Fixed
+- **Chat Gateway Verification Failure (Production)**: Updated Hosting `Content-Security-Policy` `connect-src` to allow `https://*.a.run.app`, which is required for browser calls to the deployed 2nd-gen Cloud Run function endpoints (`verifychatgateway`, `chatnotify`, `chatproxy`).
+- **Legacy Endpoint Allowlist Cleanup**: Removed stale old-project Cloud Functions allowlist entries from CSP after consolidating runtime traffic onto `marketmind-ai-website`.
+
+### Deployment
+- **Live Rollout Validation**: Redeployed Hosting and confirmed production response path health (`marketmind-ai.com` HTTP 200 and function preflight `OPTIONS` HTTP 204 for all three chat endpoints).
+
 ## [1.5.6] - 2026-06-22
 
 ### Fixed

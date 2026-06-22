@@ -1,0 +1,71 @@
+0:16
+one of the hardest challenges is ensuring your model
+0:18
+reflects the complex reality of your business.
+0:22
+This is where Meridian's Bayesian framework shines.
+0:24
+It allows us to use priors.
+0:26
+Using priors is more than just a technical feature.
+0:29
+It is fundamental to getting causal estimates
+0:31
+that you can trust and act on.
+0:33
+First, priors offer more stable and plausible results.
+0:37
+0:43
+Aggregated marketing data can be sparse or noisy.
+0:45
+Priors provide a stabilizing effect,
+0:48
+guiding the model towards plausible outcomes
+0:50
+and preventing it from reaching incorrect conclusions
+0:53
+due to limited data.
+0:55
+Second, priors give you a result that's
+0:57
+grounded in business reality.
+0:59
+1:05
+By incorporating knowledge from trusted sources like lift
+1:08
+studies, the prior's stabilizing effect
+1:11
+guides the model into alignment with this knowledge,
+1:14
+increasing stakeholder confidence.
+1:16
+You almost always have some intuition about your business.
+1:19
+For example, it might be very rare to get an ROI greater
+1:22
+than six in your industry.
+1:25
+You can encode this intuition in your prior
+1:27
+to guide the model toward more realistic results,
+1:30
+even if you don't have hard data from an experiment.
+1:33
+And lastly, Meridian offers intuitive model controls.
+1:37
+1:43
+Meridian offers intuitive ways to set a prior.
+1:46
+It's like having a direct conversation with your model.
+1:48
+Instead of tweaking abstract parameters,
+1:51
+you're providing guidance in a language you understand.
+1:54
+You can tell the model, I have strong evidence
+1:56
+that the ROI for my channel is around 1.5.
+2:00
+Check out the documentation and our other videos
+2:02
+on priors to learn more.
