@@ -2,6 +2,15 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.3] - 2026-06-22
+
+### Added
+- **Split Assistant Funnel Tracking**: Moved the MarketMind AI Assistant email gate behind a dedicated assistant-button click so GTM can track the open action separately from email submission.
+
+### Changed
+- **Assistant Access Flow**: Replaced the always-visible corporate email prompt with a click-to-open popover that appears only after the assistant button is pressed.
+- **Custom Event Separation**: Added distinct browser events for assistant launch and email submit so analytics can measure both steps independently.
+
 ## [1.5.2] - 2026-06-20
 
 ### Added

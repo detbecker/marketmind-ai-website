@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import ChatWidget from '../ChatWidget';
 
 const RECAPTCHA_SCRIPT_ID = 'recaptcha-v3-script';
@@ -45,15 +45,27 @@ function isCorporateEmail(value) {
   return !blockedDomains.has(domain);
 }
 
+function pushDataLayerEvent(eventName, payload = {}) {
+  if (typeof window === 'undefined') return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: eventName,
+    ...payload,
+  });
+}
+
 export default function ChatGateway({ isCookieBannerVisible = false }) {
   const [isVerified, setIsVerified] = useState(false);
+  const [isGateOpen, setIsGateOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorText, setErrorText] = useState('');
+  const [errorText, setErrorText] = useState(() => (
+    RECAPTCHA_SITE_KEY ? '' : 'Secure verification is unavailable. Missing reCAPTCHA site key.'
+  ));
 
   useEffect(() => {
     if (!RECAPTCHA_SITE_KEY) {
-      setErrorText('Secure verification is unavailable. Missing reCAPTCHA site key.');
       return;
     }
 
@@ -65,6 +77,20 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
   const disabled = useMemo(() => isSubmitting || email.trim().length === 0, [isSubmitting, email]);
   const bottomOffset = isCookieBannerVisible ? '132px' : '24px';
 
+  const handleAssistantClick = useCallback(() => {
+    if (isVerified) return;
+
+    setIsGateOpen(true);
+    pushDataLayerEvent('marketmind_ai_assistant_button_click', {
+      component: 'chat_gateway',
+      action: 'open_email_gate',
+    });
+  }, [isVerified]);
+
+  const handleGateClose = useCallback(() => {
+    setIsGateOpen(false);
+  }, []);
+
   async function handleSubmit(event) {
     event.preventDefault();
     setErrorText('');
@@ -73,6 +99,11 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
       setErrorText('Unable to verify your session. If you use a blocker or hardened privacy mode, allow Google reCAPTCHA and try again. If you are unable to do that, please reach out to: inquiries@marketmind-ai.com.');
       return;
     }
+
+    pushDataLayerEvent('marketmind_ai_assistant_email_submit', {
+      component: 'chat_gateway',
+      email_domain: email.trim().toLowerCase().split('@')[1] || '',
+    });
 
     setIsSubmitting(true);
     try {
@@ -130,76 +161,127 @@ export default function ChatGateway({ isCookieBannerVisible = false }) {
       {!isVerified ? (
         <div
           style={{
-            background: 'rgba(8, 8, 12, 0.94)',
-            border: '1px solid var(--glass-border)',
-            borderRadius: '16px',
-            backdropFilter: 'blur(14px)',
-            WebkitBackdropFilter: 'blur(14px)',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.65)',
-            padding: '18px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: '12px',
           }}
         >
-          <p
-            style={{
-              color: 'var(--text-main)',
-              fontSize: '0.98rem',
-              lineHeight: 1.5,
-              marginBottom: '12px',
-            }}
-          >
-            Enter your corporate email to access the MarketMind AI Assistant.
-          </p>
-
-          <form onSubmit={handleSubmit}>
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@company.com"
-              autoComplete="email"
-              required
+          {isGateOpen ? (
+            <div
+              id="marketmind-assistant-gate"
               style={{
                 width: '100%',
-                background: 'rgba(255, 255, 255, 0.04)',
-                color: 'var(--text-main)',
-                border: '1px solid #1e1e24',
-                borderRadius: '10px',
-                padding: '12px 14px',
-                marginBottom: '12px',
-                outline: 'none',
-              }}
-            />
-
-            <button
-              type="submit"
-              disabled={disabled}
-              style={{
-                width: '100%',
-                background: '#6b21a8',
-                color: '#ffffff',
-                border: '1px solid #7c3aed',
-                borderRadius: '10px',
-                padding: '11px 14px',
-                fontWeight: 600,
-                cursor: disabled ? 'not-allowed' : 'pointer',
-                opacity: disabled ? 0.7 : 1,
+                background: 'rgba(8, 8, 12, 0.94)',
+                border: '1px solid var(--glass-border)',
+                borderRadius: '16px',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.65)',
+                padding: '18px',
               }}
             >
-              {isSubmitting ? 'Validating...' : 'Start Session'}
-            </button>
-          </form>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '12px' }}>
+                <p
+                  style={{
+                    color: 'var(--text-main)',
+                    fontSize: '0.98rem',
+                    lineHeight: 1.5,
+                    margin: 0,
+                  }}
+                >
+                  Enter your corporate email to access the MarketMind AI Assistant.
+                </p>
 
-          {errorText ? (
-            <p
-              style={{
-                marginTop: '10px',
-                color: '#fca5a5',
-                fontSize: '0.9rem',
-              }}
-            >
-              {errorText}
-            </p>
+                <button
+                  type="button"
+                  onClick={handleGateClose}
+                  aria-label="Close assistant gate"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    fontSize: '1.1rem',
+                    lineHeight: 1,
+                    padding: 0,
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="you@company.com"
+                  autoComplete="email"
+                  required
+                  style={{
+                    width: '100%',
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    color: 'var(--text-main)',
+                    border: '1px solid #1e1e24',
+                    borderRadius: '10px',
+                    padding: '12px 14px',
+                    marginBottom: '12px',
+                    outline: 'none',
+                  }}
+                />
+
+                <button
+                  type="submit"
+                  disabled={disabled}
+                  style={{
+                    width: '100%',
+                    background: '#6b21a8',
+                    color: '#ffffff',
+                    border: '1px solid #7c3aed',
+                    borderRadius: '10px',
+                    padding: '11px 14px',
+                    fontWeight: 600,
+                    cursor: disabled ? 'not-allowed' : 'pointer',
+                    opacity: disabled ? 0.7 : 1,
+                  }}
+                >
+                  {isSubmitting ? 'Validating...' : 'Start Session'}
+                </button>
+              </form>
+
+              {errorText ? (
+                <p
+                  style={{
+                    marginTop: '10px',
+                    color: '#fca5a5',
+                    fontSize: '0.9rem',
+                  }}
+                >
+                  {errorText}
+                </p>
+              ) : null}
+            </div>
           ) : null}
+
+          <button
+            type="button"
+            onClick={handleAssistantClick}
+            style={{
+              background: 'linear-gradient(135deg, #6b21a8 0%, #7c3aed 100%)',
+              color: '#ffffff',
+              border: '1px solid #8b5cf6',
+              borderRadius: '999px',
+              padding: '12px 18px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 18px 35px -14px rgba(139, 92, 246, 0.8)',
+            }}
+            aria-expanded={isGateOpen}
+            aria-controls="marketmind-assistant-gate"
+          >
+            MarketMind AI Assistant
+          </button>
         </div>
       ) : (
         <ChatWidget
