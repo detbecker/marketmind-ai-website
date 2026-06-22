@@ -2,6 +2,11 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.6] - 2026-06-22
+
+### Fixed
+- **CSP: GTM Preview Badge & Icons**: Added `https://www.googletagmanager.com` and `https://googletagmanager.com` to `style-src` (for the GTM debug `badge.css`) and `https://fonts.gstatic.com` to `img-src` (for Material Icons) so the GTM Tag Assistant Preview connection stops reporting "Not Connected".
+
 ## [1.5.5] - 2026-06-22
 
 ### Fixed
