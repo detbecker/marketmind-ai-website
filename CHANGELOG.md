@@ -2,6 +2,12 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.4] - 2026-06-22
+
+### Fixed
+- **CSP: GTM Preview / Tag Assistant**: Expanded `script-src`, `style-src`, `img-src`, and `connect-src` directives to permit `googletagmanager.com`, `tagmanager.google.com`, `ssl.gstatic.com`, `*.google-analytics.com`, `*.analytics.google.com`, and `*.googletagmanager.com` so the GTM Preview / Tag Assistant connection no longer reports "Not Connected".
+- **CSP: Google Ads / DoubleClick**: Added `https://*.doubleclick.net` and `https://*.googleadservices.com` to `connect-src` to unblock the Google Ads marketing ping to `ad.doubleclick.net/ccm/s/collect`.
+
 ## [1.5.3] - 2026-06-22
 
 ### Added
