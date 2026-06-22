@@ -2,6 +2,16 @@
 
 All notable changes to the **MarketMind AI Website** project will be documented in this file.
 
+## [1.5.8] - 2026-06-22
+
+### Fixed
+- **Chat Lead Persistence Outage**: Restored `chatNotify` Firestore write access by correcting Cloud Functions runtime service-account IAM permissions in `marketmind-ai-website`.
+- **Transcript Incompleteness**: Updated chat capture flow so `chat_leads` is refreshed on each turn after email capture, instead of recording only the first notification event.
+- **Email Alert Behavior Control**: Added `sendEmail` request flag handling in `chatNotify` so transcript updates can continue without re-sending alert emails on every turn.
+
+### Operational
+- **Production Validation**: Verified successful `chatNotify` writes (HTTP 200 + Firestore document persistence) and confirmed multi-turn transcript updates in live environment.
+
 ## [1.5.7] - 2026-06-22
 
 ### Fixed

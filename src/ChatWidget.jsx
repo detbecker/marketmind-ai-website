@@ -20,7 +20,7 @@ function extractEmail(text) {
 }
 
 // ─── Send notification to Cloud Function ────────────────────────────────────
-async function notifyLead({ email, sessionId, messages }) {
+async function notifyLead({ email, sessionId, messages, sendEmail = true }) {
   if (!NOTIFY_URL) return;
   try {
     const boundedMessages = Array.isArray(messages)
@@ -37,7 +37,7 @@ async function notifyLead({ email, sessionId, messages }) {
     await fetch(NOTIFY_URL, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ email, sessionId, messages: boundedMessages }),
+      body: JSON.stringify({ email, sessionId, messages: boundedMessages, sendEmail }),
     });
   } catch (err) {
     console.error('[ChatWidget] Notification failed:', err);
@@ -149,16 +149,17 @@ export default function ChatWidget({ initialEmail = '', initialOpen = false, bot
         setCapturedEmail(email);
         // Let Gemini respond naturally, then fire notification
         await sendToGemini(text);
+        await notifyLead({
+          email,
+          sessionId,
+          sendEmail: !hasNotified,
+          messages: [
+            ...messages,
+            { role: 'user', text },
+          ],
+        });
         if (!hasNotified) {
           setHasNotified(true);
-          await notifyLead({
-            email,
-            sessionId,
-            messages: [
-              ...messages,
-              { role: 'user', text },
-            ],
-          });
         }
         return;
       }
@@ -166,16 +167,19 @@ export default function ChatWidget({ initialEmail = '', initialOpen = false, bot
 
     await sendToGemini(text);
 
-    if (capturedEmail && !hasNotified) {
-      setHasNotified(true);
+    if (capturedEmail) {
       await notifyLead({
         email: capturedEmail,
         sessionId,
+        sendEmail: !hasNotified,
         messages: [
           ...messages,
           { role: 'user', text },
         ],
       });
+      if (!hasNotified) {
+        setHasNotified(true);
+      }
     }
   }, [inputValue, isTyping, capturedEmail, hasNotified, messages, sessionId, sendToGemini, addMessage]);
 

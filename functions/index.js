@@ -228,7 +228,7 @@ exports.chatNotify = onRequest(async (req, res) => {
       }
     }
 
-    const { email, sessionId, messages } = req.body || {};
+    const { email, sessionId, messages, sendEmail = true } = req.body || {};
     if (!email || typeof email !== 'string' || !EMAIL_RE.test(email.trim()) || email.length > 320) {
       return res.status(400).json({ error: 'Invalid or missing email address.' });
     }
@@ -251,7 +251,7 @@ exports.chatNotify = onRequest(async (req, res) => {
       { merge: true }
     );
 
-    if (process.env.SENDGRID_API_KEY) {
+    if (sendEmail && process.env.SENDGRID_API_KEY) {
       try {
         const sgMail = require('@sendgrid/mail');
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -308,6 +308,8 @@ exports.chatNotify = onRequest(async (req, res) => {
       } catch (emailErr) {
         console.error('[chatNotify] Email send failed:', emailErr.message);
       }
+    } else if (sendEmail && !process.env.SENDGRID_API_KEY) {
+      console.warn('[chatNotify] SENDGRID_API_KEY is not configured. Lead saved without email alert.');
     }
 
     return res.status(200).json({ success: true, message: 'Lead recorded.' });
