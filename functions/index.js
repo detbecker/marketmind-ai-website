@@ -265,7 +265,7 @@ exports.chatNotify = onRequest(async (req, res) => {
               .join('')
           : '<tr><td colspan="2" style="color:#9ca3af;">No transcript available.</td></tr>';
 
-        await sgMail.send({
+        const sendgridMessage = {
           to: 'sbecker@ssr-research.ai',
           from: process.env.SENDGRID_SENDER_EMAIL || 'no-reply@marketmind-ai.com',
           subject: `🎯 MarketMind AI — New Chat Lead: ${email}`,
@@ -304,6 +304,17 @@ exports.chatNotify = onRequest(async (req, res) => {
   </div>
 </body>
 </html>`,
+        };
+
+        if (process.env.SENDGRID_REPLY_TO_EMAIL) {
+          sendgridMessage.replyTo = process.env.SENDGRID_REPLY_TO_EMAIL;
+        }
+
+        await sgMail.send(sendgridMessage);
+        console.log('[chatNotify] Email sent via SendGrid:', {
+          sessionId: safeSessionId,
+          from: sendgridMessage.from,
+          to: sendgridMessage.to,
         });
       } catch (emailErr) {
         console.error('[chatNotify] Email send failed:', emailErr.message);
